@@ -1,0 +1,359 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap');
+
+
+:root {
+    /* --primary-color: #16697a; */
+    --primary-color: rgb(32, 85, 138);
+    --secondary-color: rgb(22, 127, 232);
+    --btn: #20558a;
+    --btn: #20558a;
+    --grey: grey;
+    --bg: #e7e7e7;
+    --white: white;
+    --black: black;
+
+    --font-size-xxsmall: 0.425rem;
+    --font-size-xsmall: 0.6rem;
+    --font-size-small: .75rem;
+    --font-size-medium: .875rem;
+    --font-size-large: 1rem;
+    --font-size-xlarge: 1.2rem;
+    --font-size-xxlarge: 1.5rem;
+    --font-size-xxxlarge: 2rem;
+
+}
+
+body {
+    background: linear-gradient(90deg, #12ead5 0%, #0ea798 49%, #0c95a7 100%);
+    font-family: Arial, sans-serif;
+    padding: 1rem;
+}
+
+
+/* Set initial font sizes for headings, paragraphs, links, and buttons */
+h1 {
+    font-size: var(--font-size-xxxlarge);
+    /* 48px */
+    font-weight: bold;
+}
+
+h2 {
+    font-size: var(--font-size-xxlarge);
+    /* 32px */
+    font-weight: bold;
+}
+
+h3 {
+    font-size: var(--font-size-xlarge);
+    /* 24px */
+    font-weight: bold;
+}
+
+h4 {
+    font-size: var(--font-size-large);
+    /* 20px */
+    font-weight: bold;
+}
+
+h5 {
+    font-size: var(--font-size-medium);
+    /* 16px */
+    font-weight: bold;
+}
+
+h6 {
+    font-size: var(--font-size-small);
+    /* 12px */
+    font-weight: bold;
+}
+
+p {
+    font-size: var(--font-size-medium);
+    /* 16px */
+    line-height: 1.5;
+    color: var(--txt);
+}
+
+
+a {
+    font-size: var(--font-size-medium);
+    /* 16px */
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+section {
+    position: relative;
+    background-color: var(--bg);
+}
+
+.container {
+    background-color: var(--bg);
+    padding: 2rem;
+    border-radius: 1rem;
+
+}
+
+
+.form-section {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.row .scope {
+    margin-left: 1rem;
+}
+
+.row .journal {
+    width: 47%;
+    margin-left: 1rem;
+}
+
+
+.file-upload {
+    border: 2px dashed #5e98d2;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.file-upload:hover {
+    border-color: #6c757d;
+}
+
+.file-upload input {
+    display: none;
+}
+
+.drag-drop-text {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.btn.save-continue {
+    background-color: var(--btn);
+    color: var(--white);
+    border: none;
+}
+
+.save-continue:hover {
+    background-color: var(--secondary-color);
+    color: var(--white);
+}
+
+.form-footer .previous {
+    background-color: var(--grey);
+    color: var(--white);
+}
+
+.form-footer .previous:hover {
+    border: 2px solid var(--grey);
+    background: transparent;
+    color: var(--grey);
+}
+
+#add-author {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.manuscript-information {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: var(--white);
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+}
+
+.manuscript-information h2 {
+    font-size: var(--font-size-large);
+    margin-bottom: 0.5rem;
+}
+
+.manuscript-information .section-note {
+    color: #666;
+    font-size: var(--font-size-medium);
+    margin-bottom: 1rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.form-control,
+.form-check-input {
+    border: 1px solid var(--primary-color);
+
+}
+
+textarea,
+input,
+select {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--primary-color);
+    font-size: var(--font-size-medium);
+}
+
+textarea {
+    resize: none;
+}
+
+textarea+small,
+input+small {
+    margin-top: 0.2rem;
+    font-size: var(--font-size-small);
+    color: #666;
+}
+
+.error-msg {
+    color: #e63946;
+    font-size: var(--font-size-small);
+}
+
+.keyword-input {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.keyword-input input {
+    flex: 1;
+}
+
+.add-keyword {
+    padding: 0.5rem 1rem;
+    background-color: var(--secondary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-keyword:hover {
+    background-color: var(--btn);
+}
+
+.form-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+
+.form-footer .btn {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: var(--font-size-medium);
+    cursor: pointer;
+}
+
+.save-continue {
+    color: var(--white);
+    background-color: var(--secondary-color);
+}
+
+.save-continue:hover {
+    color: var(--white);
+    background-color: var(--btn);
+}
+
+/* Initially Hide the Second Section */
+.hidden {
+    display: none;
+    /* Completely hide the section */
+}
+
+/* Add Some Basic Styling for Visibility */
+textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 15px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+}
+
+.editorial-section .card-body {
+    padding: 1.2rem 0;
+    line-height: .2rem;
+}
+
+.editorial-section .card-body h3,
+p {
+    line-height: 1rem;
+}
+
+.editorial-section .card-body a {
+    font-size: .8rem;
+    display: flex;
+    justify-content: end;
+    padding-right: 1rem;
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+.change {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.fa-circle-info {
+    color: var(--btn);
+}
+
+.line::before {
+    content: "";
+    height: 2px;
+    width: 98%;
+    background-color: var(--grey);
+    position: absolute;
+    top: 50%;
+    left: 1%;
+    z-index: 1;
+}
+
+.line {
+    position: relative;
+    margin: 3rem 0;
+}
+
+.line div {
+    z-index: 99;
+}
+
+.line div button {
+    margin-left: 18rem;
+    background-color: var(--secondary-color);
+    font-size: var(--font-size-small);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.author-guidlines {
+    text-align: end;
+}
+
+.editorial-section .form-footer {
+    margin-top: 5rem;
+}

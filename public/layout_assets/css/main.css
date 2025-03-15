@@ -1,0 +1,15 @@
+.parsley-errors-list {
+    color: red; /* Change the text color */
+    font-size: 14px; /* Change the font size */
+}
+.parsley-success {
+    border: 1px solid green; /* Add a green border to valid fields */
+}
+.parsley-error {
+    border: 1px solid red; /* Add a red border to invalid fields */
+    background-color: #FFCCCC; /* Add a light red background to invalid fields */
+}
+.parsley-icon {
+    color: blue; /* Change the color of the validation icons */
+    font-size: 16px; /* Change the font size of the icons */
+}

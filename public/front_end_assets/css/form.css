@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap');
+
+:root {
+
+    --primary-color: rgb(32, 85, 138);
+    --secondary-color: rgb(22, 127, 232);
+    --btn: #20558a;
+    --bg: #e7f8f6;
+    --white: white;
+    --txt: black;
+    --font-size-xxsmall: 0.425rem;
+    --font-size-xsmall: 0.6rem;
+    --font-size-small: .75rem;
+    --font-size-medium: .875rem;
+    --font-size-large: 1rem;
+    --font-size-xlarge: 1.2rem;
+    --font-size-xxlarge: 1.5rem;
+    --font-size-xxxlarge: 2rem;
+}
+
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body {
+    background: var(--primary-color);
+    padding-bottom: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+.container {
+    background: var(--white);
+    width: 450px;
+    padding: 1.5rem;
+    margin: 50px auto;
+    border-radius: 10px;
+    box-shadow: 0 20px 35px rgba(0, 0, 1, 0.5);
+}
+
+form {
+    margin: 0.2rem;
+}
+
+.form-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 1.3rem;
+    margin-bottom: .4rem;
+}
+
+input {
+    color: var(--secondary-color);
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--btn);
+    padding-left: 1.5rem;
+    font-size: 15px;
+}
+
+.form-group {
+    padding: 1% 0;
+    position: relative;
+}
+
+.form-group i {
+    position: absolute;
+    color: var(--primary-color);
+}
+
+input:focus {
+    background: transparent;
+    outline: transparent;
+    border-bottom: solid var(--btn);
+}
+
+input::placeholder {
+    color: transparent;
+}
+
+
+label {
+    color: var(--btn);
+    position: relative;
+    left: 1.5em;
+    top: -1.6em;
+    cursor: auto;
+    transition: .3s ease all;
+}
+
+input:focus~label,
+input:not(:placeholder-shown) {
+    top: -3em;
+    color: var(--secondary-color);
+}
+
+.recover {
+    text-decoration: none;
+    color: var(--secondary-color);
+    transition: .7s all ease;
+}
+
+.recover a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.eye {
+    position: absolute;
+    right: .5rem;
+    top: 0;
+    font-size: 1.1rem;
+}
+
+#eye-open {
+    display: none;
+}
+
+#btn {
+    font-size: 1.1rem;
+    padding: 8px 0;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    width: 100%;
+    background: var(--secondary-color);
+    color: var(--white);
+    transition: .9s all ease;
+    cursor: pointer;
+}
+
+#btn:hover {
+    background: var(--btn);
+    color: var(--white);
+}
+
+.or {
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+
+.icons {
+    text-align: center;
+}
+
+.icons i {
+    color: var(--secondary-color);
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border: 2px solid #d4eaf7;
+    margin: 0 15px;
+    transition: 1s;
+}
+
+.icons i:hover {
+    background: var(--btn);
+    color: var(--white);
+}
+
+.links {
+    display: flex;
+    justify-content: space-around;
+    padding: 0 4rem;
+    margin-top: .9rem;
+    font-weight: bold;
+}
+
+button {
+    color: var(--btn);
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    height: 22px;
+    font-weight: bold;
+
+}
+
+button:hover {
+    text-decoration: underline;
+    color: var(--secondary-color);
+}
+
+#signup {
+    /* margin-top: 100px;
+    margin-: 100px; */
+    /* display: none; */
+}
