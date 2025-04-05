@@ -274,6 +274,68 @@ function getAjaxRequests(url, params, method, callback) {
         }
     });
 }
+function getAjaxFileRequests(url, params, method, callback) {
+    page_loader('show');
+
+    var method = method || "POST";
+    var formData = new FormData();
+
+    if (params) {
+        for (var key in params) {
+            if (params.hasOwnProperty(key)) {
+                let inputElement = $('#' + key);
+
+                // Check if the input is a file input and it has files selected
+                if (inputElement.length && inputElement.attr('type') === 'file') {
+                    let files = inputElement[0].files;
+                    // If there are files, loop through and append them
+                    for (let i = 0; i < files.length; i++) {
+                        formData.append(key + '[]', files[i]); // Use key + '[]' for multiple files
+                    }
+                } else {
+                    formData.append(key, params[key]);
+                }
+            }
+        }
+    }
+
+    $.ajax({
+        url: url,
+        method: method,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: formData,
+        processData: false, // Prevents jQuery from converting the FormData object into a string
+        contentType: false, // Required for file uploads
+        dataType: "json",
+        complete: function () {
+            page_loader('hide');
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            ajaxErrorHandling(jqXHR, errorThrown);
+        },
+        success: function (data) {
+            if (data['reload'] !== undefined) {
+                setTimeout(() => window.location.reload(true), 400);
+                return false;
+            }
+            if (data['redirect'] !== undefined) {
+                setTimeout(() => window.location = data['redirect'], 400);
+                return false;
+            }
+            if (data['error'] !== undefined) {
+                toast(data['error'], "Error!", 'error');
+                return false;
+            }
+
+            if (data['errors'] !== undefined) {
+                multiple_errors_ajax_handling(data['errors']);
+            }
+            callback(data);
+        }
+    });
+}
 
 
 function ajaxErrorHandling(data, msg){

@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use Illuminate\Support\Facades\Validator;
 
-class FileUpload
+class FileUploadMimeTypes
 {
     /**
      * Upload a single file to the specified destination.
@@ -14,10 +14,9 @@ class FileUpload
      * @param string $fieldName Field name for validation error messages.
      * @return string|array New filename on success or error message.
      */
-    public function uploadFile(string $destination, $file, string $fieldName)
+    public function uploadFile(string $destination, $file, string $fieldName, $allowedFormats)
     {
-        // Validate the file
-        $validationResult = $this->validateFile($file, $fieldName);
+        $validationResult = $this->validateFile($file, $fieldName, $allowedFormats);
         if (isset($validationResult['error'])) {
             return $validationResult; // Return validation error
         }
@@ -40,19 +39,19 @@ class FileUpload
      * @param string $fieldName
      * @return array Validation result.
      */
-    private function validateFile($file, string $fieldName): array
+    public function validateFile($file, string $fieldName, array $allowedFormats,): array
     {
-        $allowedFormats = ['pdf', 'tex', 'docx']; // Supported file formats
+        // $allowedFormats = ['pdf', 'tex', 'docx']; // Supported file formats
         $maxFileSize = 2048; // Maximum file size in KB (2MB)
 
         $validator = Validator::make(
             ['file' => $file],
             [
-                'file' => "required|mimes:" . implode(',', $allowedFormats) . "|max:$maxFileSize"
+                'file' => "required|mimetypes:" . implode(',', $allowedFormats) . "|max:$maxFileSize"
             ],
             [
                 'file.required' => "The $fieldName is required.",
-                'file.mimes' => "The $fieldName must be a file of type: " . implode(', ', $allowedFormats) . ".",
+                'file.mimetypes' => 'The uploaded file must be a valid Microsoft Word document (.docx).',
                 'file.max' => "The $fieldName may not be greater than $maxFileSize KB."
             ]
         );

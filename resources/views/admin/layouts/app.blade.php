@@ -209,6 +209,23 @@
                             </div>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link menu-link" href="#article" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="sidebarApps">
+                                <i class="ri-account-circle-line"></i> <span
+                                    data-key="t-authentication">Article</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="article">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.article_type.index') }}" class="nav-link"
+                                            data-key="t-calendar">
+                                            Article Type </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="#journal" data-bs-toggle="collapse" role="button"
                                 aria-expanded="false" aria-controls="sidebarApps">
                                 <i class="ri-account-circle-line"></i> <span

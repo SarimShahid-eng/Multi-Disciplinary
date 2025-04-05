@@ -15,7 +15,7 @@
 {{-- <script src="{{ asset('asset') }}/js/select2.min.js"></script> --}}
 
 <script src="{{ asset('asset') }}/js/sweetalert2.min.js"></script>
-<script src="{{ asset('asset') }}/js/custom.js"></script>
+<script src="{{ asset('asset') }}/js/custom.js?v={{ time() }}"></script>
 <script src="{{ asset('layout_assets') }}/libs/list.js/list.min.js"></script>
 <script src="{{ asset('layout_assets') }}/libs/list.pagination.js/list.pagination.min.js"></script>
 <script src="{{ asset('layout_assets') }}/libs/ckeditor5/ckeditor.js"></script>

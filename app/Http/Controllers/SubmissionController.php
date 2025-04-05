@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Journal;
 use App\Models\Submission;
 use App\Helpers\FileUpload;
+use App\Models\ArticleType;
 use App\Models\Submissions;
 use Illuminate\Http\Request;
 use App\Models\SuggestedReviewer;
+use App\Helpers\FileUploadMimeTypes;
 use Illuminate\Validation\ValidationException;
+use App\Http\Requests\TabPane\AuthorTabPaneRequest;
+use App\Http\Requests\TabPane\ReviewerTabPaneRequest;
+use App\Http\Requests\TabPane\StatementTabPaneRequest;
+use App\Http\Requests\TabPane\ManuscriptTabPaneRequest;
 
 class SubmissionController extends Controller
 {
@@ -20,10 +26,20 @@ class SubmissionController extends Controller
     public function create()
     {
         $journals = Journal::all();
-        return view('submission.create', compact('journals'));
+        $article_types = ArticleType::all();
+        return view('submission.create', compact('journals', 'article_types'));
     }
-    public function store(Request $request, FileUpload $fileUploader)
+    public function store(FileUploadMimeTypes $fileUploader, ManuscriptTabPaneRequest $manuscriptData, AuthorTabPaneRequest $authorsData, ReviewerTabPaneRequest $reviewersData, StatementTabPaneRequest $statement)
     {
+        $result =  $fileUploader->uploadFile('/uploads', $manuscriptData->file('file'), 'file', ['application/vnd.openxmlformats-officedocument.wordprocessingml.document']);
+        if (is_array($result) && array_key_exists("error", $result)) {
+            throw ValidationException::withMessages([
+                'error' => $result['error']
+            ]);
+        }
+
+        dd($statement->validated());
+        // dd($request->all());
         $Input = $request->validate(
             [
                 'title' => 'required',

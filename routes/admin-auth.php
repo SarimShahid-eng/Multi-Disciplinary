@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\VolumeController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\AdminAuth\AdminAuthenticatedSessionController;
+use App\Http\Controllers\ArticleTypeController;
 
 Route::name('admin.')->group(function () {
     Route::middleware('guest:admin')->group(function () {
@@ -45,6 +46,11 @@ Route::middleware(['auth:admin'])->group(function () {
             Route::get('add-volume', 'create')->name('create');
             Route::post('store', 'store')->name('store');
             Route::get('edit-volume/{volume}', 'edit')->name('edit');
+        });
+        Route::controller(ArticleTypeController::class)->prefix('article_type')->name('article_type.')->group(function () {
+            Route::get('manage-article-type', 'index')->name('index');
+            Route::post('store-article-type', 'store')->name('store');
+            Route::get('edit-article-type/{article}', 'edit')->name('edit');
         });
     });
 });

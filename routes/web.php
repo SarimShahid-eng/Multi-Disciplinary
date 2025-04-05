@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewersController;
 use App\Http\Controllers\ManuscriptController;
 use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\tabPaneValidationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,10 +36,18 @@ Route::middleware('auth')->group(function () {
         });
     });
     Route::middleware('role:author')->group(function () {
-        Route::controller(SubmissionController::class)->prefix('submission')->name('submission.')->group(function () {
-            Route::get('index', 'index')->name('index');
-            Route::get('submission-details', 'create')->name('create');
-            Route::post('store', 'store')->name('store');
+        Route::prefix('submission')->name('submission.')->group(function () {
+            Route::controller(SubmissionController::class)->group(function () {
+                Route::get('index', 'index')->name('index');
+                Route::get('submission-details', 'create')->name('create');
+                Route::post('store', 'store')->name('store');
+            });
+            Route::controller(tabPaneValidationController::class)->group(function () {
+                Route::post('manuscriptValidation', 'manuscriptValidation')->name('manuscript.validation');
+                Route::post('validation', 'authorValidation')->name('author.validation');
+                Route::post('reviewer-validation', 'reviewerValidation')->name('reviewer.validation');
+                Route::post('statemenInformation-validation', 'statemenInformation')->name('statemenInformation.validation');
+            });
         });
     });
 });
