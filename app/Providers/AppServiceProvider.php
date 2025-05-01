@@ -2,9 +2,16 @@
 
 namespace App\Providers;
 
+use Hashids\Hashids;
+use App\Models\Manuscript;
+use App\Models\ManuscriptTracker;
+use App\Policies\ManuscriptTracking;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Blade;
+use App\helpers\getLatestManuscriptId;
+use App\helpers\ManuscriptIdGenerator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,10 +21,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+
         // Gate::define('role', function ($user, ...$roles) {
 
         //     return in_array($user->role->name, $roles);
         // });
+        Gate::define('viewUser', [ManuscriptTracking::class, 'view']);
         Gate::define('super-admin', function ($user) {
             return $user->id === 1;
         });
@@ -32,7 +41,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Blade::directive()
-        //
+        if (session()->has('manuscript_id')) {
+            $manuscript = session('manuscript_id');
+        } else {
+            $IdGenerator = new ManuscriptIdGenerator();
+            $manuscript = $IdGenerator->getLatestId();
+            session(['manuscript_id' => $manuscript]);
+        }
+        View::composer(['submission.manuscriptlayout'], function ($view) {
+            $manuscript = session('manuscript_id');
+
+            $view->with('manuscript', $manuscript);
+        });
     }
 }

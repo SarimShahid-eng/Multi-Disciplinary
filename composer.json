@@ -7,8 +7,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "hashids/hashids": "*",
         "laravel/framework": "^11.31",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "red-explosion/laravel-sqids": "^1.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

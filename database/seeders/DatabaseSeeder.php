@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Author;
+use App\Models\Journal;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -47,6 +48,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'associateditor@example.com',
         // ]);
         // $associateEditor->roles()->attach($associateEditorRole);
-        Admin::factory(1)->create();
+        // Admin::factory(1)->create();
+        Journal::factory(1)->create();
     }
 }

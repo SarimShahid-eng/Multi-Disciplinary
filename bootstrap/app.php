@@ -22,7 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth' => Authenticate::class,
             'guest' => RedirectIfAuthenticated::class,
             'role' => \App\Http\Middleware\RoleAccessMiddleware::class,
-            'authorRestrict' => \App\Http\Middleware\AuthorRestrictionMiddleware::class
+            'authorRestrict' => \App\Http\Middleware\AuthorRestrictionMiddleware::class,
+            'check.manuscript_step' => \App\Http\Middleware\EnsureStepCompleted::class,
         ]);
         app('router')->middleware('loadRoles', \App\Http\Middleware\LoadRolesMiddleware::class);
     })

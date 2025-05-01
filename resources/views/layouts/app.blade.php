@@ -312,7 +312,8 @@
                                 <div class="collapse menu-dropdown" id="submission">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="{{ route('submission.create') }}" class="nav-link"
+                                            {{-- @dd($manuscript) --}}
+                                            <a href="{{ route('submission.reset_manuscript') }}" class="nav-link"
                                                 data-key="t-calendar">
                                                 Submit Manuscript </a>
                                         </li>

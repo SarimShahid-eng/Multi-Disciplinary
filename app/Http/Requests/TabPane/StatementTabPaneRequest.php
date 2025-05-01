@@ -21,27 +21,33 @@ class StatementTabPaneRequest extends FormRequest
      */
     public function rules(): array
     {
+        // dd($this->all());
         return [
-            'commercial_financial' => 'required|in:0,1',
-            'commercial_financial_reason' => 'required_if:commercial_financial,1|nullable|string',
+            'manuscript_id' => 'required',
+            'conflict_interest' => 'required|in:0,1',
+            'conflict_interest_reason' => 'required_if:conflict_interest,1|nullable|string',
 
-            'previous_version_exist' => 'required|in:0,1',
-            'previous_version_exist_reason' => 'required_if:previous_version_exist,1|nullable|string',
+            'manuscript_version' => 'required|in:0,1',
+            'manuscript_version_reason' => 'required_if:manuscript_version,1|nullable|string',
 
-            'is_funding_received' => 'required|in:0,1',
-            'is_funding_received_reason' => 'required_if:is_funding_received,1|nullable|string',
+            'funding' => 'required|in:0,1',
+            'funding_reason' => 'required_if:funding,1|nullable|string',
 
-            'gen_ai_use' => 'required|in:0,1',
-            'gen_ai_use_reason' => 'required_if:gen_ai_use,1|nullable|string',
+            'genAi' => 'required|in:0,1',
+            'genAi_reason' => 'required_if:genAi,1|nullable|string',
         ];
     }
     public function messages(): array
     {
         return [
-            'commercial_financial_reason.required_if' => 'Commercial explaination is required if the you have got any commercial or financial interest.',
-            'previous_version_exist_reason.required_if' => 'Previous version explaination is required if  you have got any previous version of this manuscript.',
-            'is_funding_received_reason.required_if' => 'Funding explaination is required if  you have got any funding received for this manuscript.',
-            'gen_ai_use_reason.required_if' => 'Gen AI explaination is required if  you have used any Gen AI tools for this manuscript.',
+            'conflict_interest' => 'Commercial or financial interest field is required.',
+            'conflict_interest_reason.required_if' => 'Commercial or financial explaination is required if  you have got any commercial or financial conflict of interest in the research.',
+            'manuscript_version_reason.required' => 'Manuscript version field is required.',
+            'manuscript_version_reason.required_if' => 'Previous version explaination is required if  you have got any previous version of this manuscript.',
+            'funding_reason.required' => 'Funding field is required',
+            'funding_reason.required_if' => 'Funding explaination is required if  you have got any funding received for this manuscript.',
+            'genAi.required' => 'Gen AI field is required',
+            'genAi_reason.required_if' => 'Gen AI explaination is required if  you have used any Gen AI tools for this manuscript.',
         ];
     }
 }

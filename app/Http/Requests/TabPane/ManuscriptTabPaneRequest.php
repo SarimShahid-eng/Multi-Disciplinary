@@ -22,10 +22,12 @@ class ManuscriptTabPaneRequest extends FormRequest
      */
     public function rules(): array
     {
+        // dd($this->all());
         return [
+            'manuscript_id' => 'nullable|integer',
             'journal_id' => 'required|integer',
             'file' => 'required',
-            'article_type' => 'required|in:1,2,3,4,5,6,7',
+            'article_type_id' => 'required|in:1,2,3,4,5,6,7',
             'title' => 'required|string|max:255',
             'abstract' => 'required|string|max:255',
             'keyword' => 'required|string|max:255',
@@ -35,6 +37,7 @@ class ManuscriptTabPaneRequest extends FormRequest
     {
 
         return [
+            'article_type_id.required' => 'article type field is required',
             'journal_id.required' => 'journal field is required',
             'file.required' => 'MS Word file is required',
         ];

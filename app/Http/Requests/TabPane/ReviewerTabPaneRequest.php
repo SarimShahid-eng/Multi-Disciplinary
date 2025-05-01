@@ -21,26 +21,42 @@ class ReviewerTabPaneRequest extends FormRequest
      */
     public function rules(): array
     {
+        // dd($this->all());
         return [
-            'reviewer_email'       => 'required|array',
-            'reviewer_email.*'     => 'required|email|max:255',
-            'reviewer_firstname'   => 'required|array',
-            'reviewer_firstname.*' => 'required|string|max:255',
-            'reviewer_lastname'   => 'required|array',
-            'reviewer_lastname.*' => 'required|string|max:255',
-            'reviewer_lastname'   => 'required|array',
-            'reviewer_affiliation.*' => 'required|string|max:255',
-            'reviewer_affiliation' => 'required',
+            'manuscript_id' => 'required',
+            'suggested_reviewer_1_email' => 'required|email',
+            'suggested_reviewer_1_firstname' => 'required',
+            'suggested_reviewer_1_lastname' => 'required',
+            'suggested_reviewer_1_affiliation' => 'required',
+            'suggested_reviewer_2_email' => 'required|email',
+            'suggested_reviewer_2_firstname' => 'required',
+            'suggested_reviewer_2_lastname' => 'required',
+            'suggested_reviewer_2_affiliation' => 'required',
+            'suggested_reviewer_3_email' => 'required|email',
+            'suggested_reviewer_3_firstname' => 'required',
+            'suggested_reviewer_3_lastname' => 'required',
+            'suggested_reviewer_3_affiliation' => 'required',
         ];
     }
     public function messages(): array
     {
         return [
-            'reviewer_email.*.required' => 'Each Reviewer email is required',
-            'reviewer_email.email' => 'Each Reviewer email must be a valid email address',
-            'reviewer_firstname.*.required' => 'Each Reviewer firstname is required',
-            'reviewer_lastname.*.required' => 'Each Reviewer lastname is required',
-            'reviewer_affiliation.*.required' => 'Each Reviewer affiliation is required',
+            'suggested_reviewer_1_email.required' => 'Suggested Reviewer 1 email is required',
+            'suggested_reviewer_1_email.email' => 'Suggested Reviewer 1 email must be a valid email address',
+            'suggested_reviewer_1_firstname.required' => 'Suggested Reviewer 1 firstname is required',
+            'suggested_reviewer_1_lastname.required' => 'Suggested Reviewer 1 lastname is required',
+            'suggested_reviewer_1_affiliation.required' => 'Suggested Reviewer 1 lastname is required',
+            'suggested_reviewer_2_email.required' => 'Suggested Reviewer 2 email is required',
+            'suggested_reviewer_2_email.email' => 'Suggested Reviewer 2 email must be a valid email address',
+            'suggested_reviewer_2_firstname.required' => 'Suggested Reviewer 2 firstname is required',
+            'suggested_reviewer_2_lastname.required' => 'Suggested Reviewer 2 lastname is required',
+            'suggested_reviewer_2_affiliation.required' => 'Suggested Reviewer 2 lastname is required',
+            'suggested_reviewer_3_email.required' => 'Suggested Reviewer 3 email is required',
+            'suggested_reviewer_3_email.email' => 'Suggested Reviewer 3 email must be a valid email address',
+            'suggested_reviewer_3_firstname.required' => 'Suggested Reviewer 3 firstname is required',
+            'suggested_reviewer_3_lastname.required' => 'Suggested Reviewer 3 lastname is required',
+            'suggested_reviewer_3_affiliation.required' => 'Suggested Reviewer 3 lastname is required',
+
         ];
     }
 }

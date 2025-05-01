@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Hashids\Hashids;
 use App\Models\Journal;
+use App\Models\Manuscript;
 use App\Models\Submission;
 use App\Helpers\FileUpload;
 use App\Models\ArticleType;
 use App\Models\Submissions;
 use Illuminate\Http\Request;
+use App\Models\ManuscriptAuthors;
 use App\Models\SuggestedReviewer;
+use App\Models\ManuscriptStatement;
 use App\Helpers\FileUploadMimeTypes;
+use Illuminate\Support\Facades\Gate;
+use App\helpers\ManuscriptIdGenerator;
+use App\Models\ManuscriptSuggestedReviewer;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\TabPane\AuthorTabPaneRequest;
 use App\Http\Requests\TabPane\ReviewerTabPaneRequest;
@@ -20,79 +27,120 @@ class SubmissionController extends Controller
 {
     public function index()
     {
+        dd('ss');
         $submissions = Submission::paginate(20);
         return view('submission.index', compact('submissions'));
     }
-    public function create()
+    public function reset_manuscript(ManuscriptIdGenerator $gManuscriptId)
     {
+        session()->forget('manuscript_id');
+        $newEncodedId = $gManuscriptId->getLatestId();
+        return redirect()->route('submission.create_manuscript', $newEncodedId);
+    }
+
+    public function create_manuscript(ManuscriptIdGenerator $gManuscriptId)
+    {
+        $IdGenerator = new ManuscriptIdGenerator();
+        $manuscript = $IdGenerator->getLatestId();
+        session(['manuscript_id' => $manuscript]);
         $journals = Journal::all();
         $article_types = ArticleType::all();
-        return view('submission.create', compact('journals', 'article_types'));
-    }
-    public function store(FileUploadMimeTypes $fileUploader, ManuscriptTabPaneRequest $manuscriptData, AuthorTabPaneRequest $authorsData, ReviewerTabPaneRequest $reviewersData, StatementTabPaneRequest $statement)
-    {
-        $result =  $fileUploader->uploadFile('/uploads', $manuscriptData->file('file'), 'file', ['application/vnd.openxmlformats-officedocument.wordprocessingml.document']);
-        if (is_array($result) && array_key_exists("error", $result)) {
-            throw ValidationException::withMessages([
-                'error' => $result['error']
-            ]);
+        if (session()->has('manuscript_id')) {
+            $manuscript = session('manuscript_id');
+            $manuscript = Manuscript::find($gManuscriptId->decodeId($manuscript)[0]);
         }
-
-        dd($statement->validated());
-        // dd($request->all());
-        $Input = $request->validate(
-            [
-                'title' => 'required',
-                'abstract' => 'required',
-                'tags' => 'required',
-                'journal_id' => 'required',
-                'name' => 'required',
-                'email' => 'required',
-                'affiliation' => 'required',
-                'reason' => 'required',
-
-            ],
-            [
-                'tags.required' => 'Keywords field is required',
-                'journal_id.required' => 'Journal field is required',
-            ]
-        );
-        $tags = explode(',', $Input['tags']);
-        // dd(explode(',', $Input['tags']));
-        $file = $request->file('file');
-        $fieldName = 'file';
-
-        $response = $fileUploader->uploadFile('submissionFormFiles/files', $file, $fieldName);
-        if (isset($response['error'])) {
-            throw ValidationException::withMessages([$fieldName => $response['error']]);
-        }
-        $msg = 'Added';
-        $submission = [
-            'title' => $Input['title'],
-            'abstract' => $Input['abstract'],
-            'keywords' => $tags,
-            'submission_date' => date('Y-m-d'),
-            'journal_id' => $Input['journal_id'],
-            'corresponding_author_id' => auth()->user()->id,
-            'file_path' => $response
-        ];
-        $submission = Submission::create($submission);
-        $suggestedReviewer = [
-            'submission_id' => $submission->id,
-            'name' => $Input['name'],
-            'email' => $Input['email'],
-            'affiliation' => $Input['affiliation'],
-            'reason' => $Input['reason'],
-
-        ];
-        SuggestedReviewer::create($suggestedReviewer);
-        return response()->json([
-            'success' => 'SUbmission Details ' . $msg . ' Successfully',
-            'reload' => true
-        ]);
+        $manuscriptId = session('manuscript_id');
+        return view('submission.create_manuscript', compact('journals', 'article_types', 'manuscript', 'manuscriptId'));
     }
-    public function show(Submission $submission)
+    public function create_author($id, ManuscriptIdGenerator $gManuscriptId)
     {
-        return view('submission.show', compact('submission'));
+
+        $id = $gManuscriptId->decodeId($id)[0];
+        $authors = ManuscriptAuthors::where('manuscript_id', $id)->get();
+        $manuscriptId = session('manuscript_id');
+        $countries = config('countries');
+        return view('submission.create_author', compact('authors', 'countries', 'manuscriptId'));
     }
+    public function create_reviewer($id, ManuscriptIdGenerator $gManuscriptId)
+    {
+        $id = $gManuscriptId->decodeId($id)[0];
+        $s_reviewer = ManuscriptSuggestedReviewer::where('manuscript_id', $id)->first();
+        $manuscriptId = session('manuscript_id');
+
+        return view('submission.create_reviewer', compact('s_reviewer', 'manuscriptId'));
+    }
+    public function create_statement($id, ManuscriptIdGenerator $gManuscriptId)
+    {
+        $manuscriptId = session('manuscript_id');
+
+        $id = $gManuscriptId->decodeId($id)[0];
+        $m_statement = ManuscriptStatement::where('manuscript_id', $id)->first();
+        return view('submission.create_statement', compact('m_statement', 'manuscriptId'));
+    }
+    // public function store(FileUploadMimeTypes $fileUploader, ManuscriptTabPaneRequest $manuscriptData, AuthorTabPaneRequest $authorsData, ReviewerTabPaneRequest $reviewersData, StatementTabPaneRequest $statement)
+    // {
+    //     $result =  $fileUploader->uploadFile('/uploads', $manuscriptData->file('file'), 'file', ['application/vnd.openxmlformats-officedocument.wordprocessingml.document']);
+    //     if (is_array($result) && array_key_exists("error", $result)) {
+    //         throw ValidationException::withMessages([
+    //             'error' => $result['error']
+    //         ]);
+    //     }
+
+    //     dd($statement->validated());
+    //     // dd($request->all());
+    //     $Input = $request->validate(
+    //         [
+    //             'title' => 'required',
+    //             'abstract' => 'required',
+    //             'tags' => 'required',
+    //             'journal_id' => 'required',
+    //             'name' => 'required',
+    //             'email' => 'required',
+    //             'affiliation' => 'required',
+    //             'reason' => 'required',
+
+    //         ],
+    //         [
+    //             'tags.required' => 'Keywords field is required',
+    //             'journal_id.required' => 'Journal field is required',
+    //         ]
+    //     );
+    //     $tags = explode(',', $Input['tags']);
+    //     // dd(explode(',', $Input['tags']));
+    //     $file = $request->file('file');
+    //     $fieldName = 'file';
+
+    //     $response = $fileUploader->uploadFile('submissionFormFiles/files', $file, $fieldName);
+    //     if (isset($response['error'])) {
+    //         throw ValidationException::withMessages([$fieldName => $response['error']]);
+    //     }
+    //     $msg = 'Added';
+    //     $submission = [
+    //         'title' => $Input['title'],
+    //         'abstract' => $Input['abstract'],
+    //         'keywords' => $tags,
+    //         'submission_date' => date('Y-m-d'),
+    //         'journal_id' => $Input['journal_id'],
+    //         'corresponding_author_id' => auth()->user()->id,
+    //         'file_path' => $response
+    //     ];
+    //     $submission = Submission::create($submission);
+    //     $suggestedReviewer = [
+    //         'submission_id' => $submission->id,
+    //         'name' => $Input['name'],
+    //         'email' => $Input['email'],
+    //         'affiliation' => $Input['affiliation'],
+    //         'reason' => $Input['reason'],
+
+    //     ];
+    //     SuggestedReviewer::create($suggestedReviewer);
+    //     return response()->json([
+    //         'success' => 'SUbmission Details ' . $msg . ' Successfully',
+    //         'reload' => true
+    //     ]);
+    // }
+    // public function show(Submission $submission)
+    // {
+    //     return view('submission.show', compact('submission'));
+    // }
 }

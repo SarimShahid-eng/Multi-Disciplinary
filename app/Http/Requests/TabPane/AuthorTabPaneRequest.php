@@ -21,10 +21,14 @@ class AuthorTabPaneRequest extends FormRequest
      */
     public function rules(): array
     {
-        // dd($this->all());
         return [
+            'manuscript_id' => 'required',
+            'manuscript_author_id' => 'nullable',
             'author_email'       => 'required|array',
             'author_email.*'     => 'required|email|max:255',
+
+            'country'       => 'required|array',
+            'country.*'     => 'required|string|max:255',
 
             'author_title'       => 'required|array',
             'author_title.*'     => 'required|string|max:255',
@@ -42,12 +46,11 @@ class AuthorTabPaneRequest extends FormRequest
                 'string',
                 function ($attribute, $value, $fail) {
                     // Check if it has exactly 6 comma-separated components
-                    if (count(array_filter(explode(',', $value))) < 6) {
-                        $fail('Each affiliation must contain Department, College, University name, City, Postcode, and Country separated by commas.');
+                    if (count(array_filter(explode(',', $value))) < 5) {
+                        $fail('Each affiliation must contain Department, College, University name, City, Postcode separated by commas.');
                     }
                 },
             ],
-
             'author_co_author'   => 'nullable|array',
             'author_co_author.*' => 'nullable|in:0,1',
         ];
@@ -57,6 +60,7 @@ class AuthorTabPaneRequest extends FormRequest
         return [
             'author_email.*.email'        => 'Each email must be a valid email format.',
             'author_email.*.required'     => 'Each author must have a valid email address.',
+            'country.*.required'     => 'Each author must have a country.',
             'author_title.*.required' => 'Each author must have a Title.',
             'author_firstname.*.required' => 'Each author must have a first name.',
             'author_lastname.*.required'  => 'Each author must have a last name.',

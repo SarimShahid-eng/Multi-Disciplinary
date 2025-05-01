@@ -39,36 +39,54 @@
             color: white;
             font-weight: bold;
         }
+
+        .incomplete_sub_border::after {
+            content: "";
+            background: #405189;
+            height: 1px;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            bottom: 0;
+            -webkit-transition: all 250ms ease 0s;
+            transition: all 250ms ease 0s;
+            -webkit-transform: scale(0);
+            /* transform: scale(0); */
+            transform: scale(1);
+            /* color: #405189; */
+        }
+
+        .incomp-sub {
+            padding: 1rem 1rem;
+            background-color: #8080802e;
+        }
+
+        .active-link {
+            background-color: #405189;
+            color: white !important;
+            font-weight: 500
+        }
     </style>
     <div class="row">
 
         <div class="col-xxl-9">
             <div class="card mt-xxl-n5">
-                <div class="card-header">
-                    <ul id="navTabe" class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" disabled data-bs-toggle="tab" href="#manuscriptInformation"
-                                role="tab">
-                                <i class="fas fa-home"></i> Manuscript Information
+                <div class="card-header pb-1">
+                    <ul class="d-flex ps-0">
+                        <li>
+                            <a href="{{ route('submission.incomplete_submission.index') }}"
+                                class="text-primary fw-medium p-2 rounded-1">
+                                Incomplete Submission(1)
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" disabled data-bs-toggle="tab" href="#authorInformation" role="tab">
-                                <i class="fas fa-home"></i> Author Information
-                            </a>
+                        <li> <a href="{{ route('submission.incomplete_submission.index') }}""
+                                class="active-link text-primary p-2 rounded-1">Manuscript Information</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" disabled data-bs-toggle="tab" href="#reviwerInformation" role="tab">
-                                <i class="fas fa-home"></i> Reviewer Information
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" disabled data-bs-toggle="tab" href="#statementInformation"
-                                role="tab">
-                                <i class="fas fa-home"></i>Statement
-                            </a>
-                        </li>
+                        <li> <a href="#" class="text-primary p-2 rounded-1">Author Information</a> </li>
+                        <li> <a href="#" class="text-primary p-2 rounded-1">Reviewer Information</a> </li>
+                        <li> <a href="#" class="text-primary p-2 rounded-1">Statement</a> </li>
                     </ul>
+
                 </div>
                 <div class="card-body p-4">
                     <form method="POST" class="ajax-image-Form" action="{{ route('submission.store') }}">
@@ -81,8 +99,6 @@
                                 </div>
                                 <hr>
 
-                                {{-- <form action="{{ route('profile.update') }}" class="ajaxForm" method="POST">
-                                @csrf --}}
                                 <div class="row gy-2">
                                     {{-- journal selection --}}
                                     <div class="col-xxl-12 col-md-12">

@@ -27,7 +27,7 @@ function toast(msg, title, type, timer){
 
 function initAjaxForm() {
     var submit_btn = $("form.ajaxForm").data('submitBtn'),
-        disabled_btn = '<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span> Loading...';
+        disabled_btn = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Loading...';
 
     if (submit_btn === null || submit_btn === undefined || submit_btn === '') {
         submit_btn = 'Submit';
@@ -97,12 +97,13 @@ function initAjaxForm() {
     });
 }
 function initAjaxFormImage() {
+    // alert()
     var submit_btn = $("form.ajax-image-Form").data("submitBtn"),
         disabled_btn =
-            '<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span> Loading...';
+            '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Loading...';
 
     if (submit_btn === null || submit_btn === undefined || submit_btn === "") {
-        submit_btn = "Submit";
+        submit_btn = $("form.ajax-image-Form button[type='submit']").html();
     }
 
     $.ajaxSetup({
@@ -116,8 +117,6 @@ function initAjaxFormImage() {
 
     $("form.ajax-image-Form").on("submit", function (e) {
         e.preventDefault(); // Prevent the default form submission
-
-        // Show loader and disable button
         page_loader("show");
         var submitButton = $(this).find("button[type='submit']");
         submitButton.attr("disabled", "disabled").html(disabled_btn);
@@ -407,9 +406,21 @@ function adminClearNotifications(e){
         }
     })
 }
+function disableBtn(button) {
+    $(button).attr("disabled", "disabled").html(
+        '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Proceeding...'
+    );
+}
+
+function removeDisableBtn(button, html) {
+    console.log(html)
+    let btn_text = html == undefined ? 'proceeding....' : html;
+    setTimeout(() => $(button).removeAttr("disabled").html(btn_text), 360)
+}
 
 
 $(document).ready(function () {
+    // alert('..')
     initAjaxForm();
     initAjaxFormImage();
 });
