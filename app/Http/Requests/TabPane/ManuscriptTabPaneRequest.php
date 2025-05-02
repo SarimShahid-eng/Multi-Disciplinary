@@ -24,7 +24,7 @@ class ManuscriptTabPaneRequest extends FormRequest
     {
         // dd($this->all());
         return [
-            'manuscript_id' => 'nullable|integer',
+            'manuscript_id' => 'nullable',
             'journal_id' => 'required|integer',
             'file' => 'required',
             'article_type_id' => 'required|in:1,2,3,4,5,6,7',

@@ -1,4 +1,10 @@
 <x-manuscript-layout>
+    <style>
+        .swal2-popup .swal2-title {
+            font-weight: 500 !important;
+            font-size: 1.675em !important;
+        }
+    </style>
     <div class="tab-pane" id="statementInformation" role="tabpanel">
         <div class="heading-sub_heading mb-3">
             <h5 class="mb-0">Statement Details</h5>
@@ -143,6 +149,7 @@
         <!--end row-->
         {{-- </form> --}}
         @push('page-script')
+            {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
             <script>
                 $('#submitStatement').click(function() {
                     let btnHtml = $(this).html();
@@ -160,9 +167,7 @@
                         manuscript_id: "{{ $manuscriptId }}"
                     };
                     removeDisableBtn(this, btnHtml);
-                    getAjaxRequests(url, params, 'POST', function(response) {
-                        console.log(response)
-                    })
+                    getAjaxRequests(url, params, 'POST', function(response) {}, true, 2000)
                 })
             </script>
         @endpush

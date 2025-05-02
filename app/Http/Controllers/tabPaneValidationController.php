@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Journal;
 use App\Models\Manuscript;
-use App\Helpers\FileUpload;
-use App\Models\ArticleType;
+use App\Models\ManuscriptStatus;
 use App\Models\ManuscriptAuthors;
 use App\Models\ManuscriptTracker;
 use App\Models\ManuscriptStatement;
@@ -23,7 +21,6 @@ class tabPaneValidationController extends Controller
     public $manuscriptId;
     public function manuscriptValidation(ManuscriptIdGenerator $gManuscriptId, FileUploadMimeTypes $fileUpload, ManuscriptTabPaneRequest $request)
     {
-
         $uploadPath = '/users-uploaded-file';
         $allowedFormats = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
         $file = $request->file('file')[0];
@@ -41,8 +38,13 @@ class tabPaneValidationController extends Controller
         if (!empty($Input['keyword'])) {
             $Input['keywords'] = array_map('trim', explode(',', $Input['keyword']));
         }
-        $manuscript = Manuscript::create($Input);
-        // step 1 completed
+        $record = Manuscript::find($gManuscriptId->decodeId($Input['manuscript_id'])[0]);
+        if ($record) {
+            $record->update($Input);
+            $manuscript = $record;
+        } else {
+            $manuscript = Manuscript::create($Input);
+        }
         ManuscriptTracker::create([
             'manuscript_id' => $manuscript->id,
             'step1' => true,
@@ -58,6 +60,7 @@ class tabPaneValidationController extends Controller
     {
         $Input = $request->validated();
         $manuscriptId = $gManuscriptId->decodeId($Input['manuscript_id'])[0];
+
         $authors = [];
         foreach ($Input['author_email'] as $index => $email) {
             $authors[] = [
@@ -69,10 +72,15 @@ class tabPaneValidationController extends Controller
                 'middlename' => $Input['author_middlename'][$index] ?? null,
                 'lastname' => $Input['author_lastname'][$index],
                 'affiliation' => $Input['author_affiliation'][$index],
+                'country' => $Input['author_country'][$index],
                 'is_corresponding' => $Input['author_co_author'][$index],
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
+        }
+        $findRecord = ManuscriptAuthors::where('manuscript_id', $manuscriptId)->first();
+        if ($findRecord) {
+            ManuscriptAuthors::where('manuscript_id', $manuscriptId)->delete();
         }
         collect($authors)->chunk(100)->each(function ($chunk) {
             foreach ($chunk as $authorData) {
@@ -80,7 +88,6 @@ class tabPaneValidationController extends Controller
             }
         });
         ManuscriptTracker::where('manuscript_id', $manuscriptId)->update(['step2' => true]);
-
         return response()->json([
             'message' => 'success',
             'redirect' => route('submission.create_reviewer', $Input['manuscript_id']),
@@ -93,7 +100,12 @@ class tabPaneValidationController extends Controller
         $manuscriptId = $Input['manuscript_id'];
         $decodedId = $gManuscriptId->decodeId($manuscriptId)[0];
         $Input['manuscript_id'] = $decodedId;
-        ManuscriptSuggestedReviewer::create($Input);
+        $findRecord = ManuscriptSuggestedReviewer::where('manuscript_id', $decodedId)->first();
+        if ($findRecord) {
+            $findRecord->update($Input);
+        } else {
+            ManuscriptSuggestedReviewer::create($Input);
+        }
         ManuscriptTracker::where('manuscript_id', $decodedId)->update(['step3' => true]);
         return response()->json([
             'message' => 'success',
@@ -108,9 +120,16 @@ class tabPaneValidationController extends Controller
         $decodedId = $gManuscriptId->decodeId($manuscriptId)[0];
 
         $Input['manuscript_id'] = $decodedId;
-        ManuscriptStatement::create($Input);
+        $findRecord = ManuscriptStatement::where('manuscript_id', $decodedId)->first();
+        if ($findRecord) {
+            $findRecord->update($Input);
+        } else {
+            ManuscriptStatement::create($Input);
+        }
         ManuscriptTracker::where('manuscript_id', $decodedId)->update(['step4' => true]);
         Manuscript::where('id', $decodedId)->update(['is_completed' => true]); //mark as completed
+        ManuscriptStatus::logStatus($decodedId, 'submitted');
+
         $newEncodedId = $gManuscriptId->getLatestId();
         session(['manuscript_id' => $newEncodedId]);
         return response()->json([

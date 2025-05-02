@@ -1,4 +1,45 @@
 <x-manuscript-layout>
+    <style>
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            min-height: 40px;
+            align-items: center;
+        }
+
+        .tag {
+            background-color: #435590;
+            color: white;
+            padding: 5px 10px;
+            margin: 2px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .tag .remove-tag {
+            cursor: pointer;
+            margin-left: 5px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .tags-input {
+            border: none;
+            outline: none;
+            flex-grow: 1;
+            padding: 5px;
+        }
+
+        .cross_icon {
+            border-radius: 0;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
     <div class="heading-sub_heading mb-3">
         <h5 class="mb-0">Manuscript Details</h5>
         <p class="text-muted fs-11">Input manuscript details ...</p>
@@ -60,7 +101,6 @@
                 value="@isset($manuscript->keywords)@foreach ($manuscript->keywords as $keyword){{ $keyword }};
                         @endforeach @endisset">
         </div>
-        <input type="hidden" name="manuscript_id" id="manuscript_id" value="{{ $manuscriptId }}">
 
 
         <div class="row align-items-center justify-content-between mt-3">
@@ -76,6 +116,7 @@
     @push('page-script')
         <script>
             $(document).ready(function() {
+
                 $('#submitManuscript').click(function() {
                     var url = "{{ route('submission.manuscript.validation') }}";
                     let btnHtml = $(this).html();
@@ -87,7 +128,7 @@
                         title: $('#title').val(),
                         abstract: $('#abstract').val(),
                         keyword: $('#tags-hidden').val(),
-                        // manuscript_id: $('#manuscript_id').val()
+                        manuscript_id: "{{ $manuscriptId }}"
                     }
 
                     removeDisableBtn(this, btnHtml);

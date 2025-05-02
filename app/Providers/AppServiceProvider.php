@@ -2,16 +2,12 @@
 
 namespace App\Providers;
 
-use Hashids\Hashids;
-use App\Models\Manuscript;
-use App\Models\ManuscriptTracker;
 use App\Policies\ManuscriptTracking;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Blade;
-use App\helpers\getLatestManuscriptId;
-use App\helpers\ManuscriptIdGenerator;
+use App\Helpers\ManuscriptIdGenerator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -48,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
             $manuscript = $IdGenerator->getLatestId();
             session(['manuscript_id' => $manuscript]);
         }
-        View::composer(['submission.manuscriptlayout'], function ($view) {
+        View::composer(['components.manuscript-layout'], function ($view) {
             $manuscript = session('manuscript_id');
 
             $view->with('manuscript', $manuscript);

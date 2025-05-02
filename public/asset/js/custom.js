@@ -228,7 +228,7 @@ function run_ajax(href){
     });
 }
 
-function getAjaxRequests(url, params, method, callback) {
+function getAjaxRequests(url, params, method, callback,showToast = false,toastDelay = 1200) {
     page_loader('show');
 
     var params = (!params && params != '') ? {} : params;
@@ -249,16 +249,20 @@ function getAjaxRequests(url, params, method, callback) {
             ajaxErrorHandling(jqXHR, errorThrown);
         },
         success: function (data) {
+            const delay = showToast ? toastDelay : 400;
+            if (showToast) {
+                toast('Manuscript Steps Completed', "Success!", 'success', 1200);
+                }
             if (data['reload'] !== undefined) {
                 setTimeout(function () {
                     window.location.reload(true);
-                }, 400);
+                }, delay);
                 return false;
             }
             if (data['redirect'] !== undefined) {
                 setTimeout(function () {
                     window.location = data['redirect'];
-                }, 400);
+                }, delay);
                 return false;
             }
             if (data['error'] !== undefined) {
@@ -269,7 +273,9 @@ function getAjaxRequests(url, params, method, callback) {
             if (data['errors'] !== undefined) {
                 multiple_errors_ajax_handling(data['errors']);
             }
+
             callback(data);
+
         }
     });
 }

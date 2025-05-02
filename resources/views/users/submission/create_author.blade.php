@@ -1,4 +1,5 @@
 <x-manuscript-layout>
+
     <div class="tab-pane " id="authorInformation" role="tabpanel">
         <div class="heading-sub_heading mb-3">
             <h5 class="mb-0">Author Details</h5>
@@ -10,13 +11,13 @@
                 @isset($authors)
                     @if ($authors->count() >= 1)
                         @foreach ($authors as $author)
-                            @include('submission.create_author_append', [
+                            @include('users.submission.create_author_append', [
                                 'recordType' => $loop->first ? 'firstRecord' : 'remove',
                                 'count' => $loop->iteration,
                             ])
                         @endforeach
                     @else
-                        @include('submission.create_author_append', [
+                        @include('users.submission.create_author_append', [
                             'recordType' => 'firstRecord',
                         ])
                     @endif
@@ -127,7 +128,13 @@
     @push('page-script')
         <script>
             $(document).ready(function() {
-                $('#author1').select2();
+                @if ($authors->count() >= 1)
+                    @foreach ($authors as $author)
+                        $('#author{{ $loop->iteration }}').select2();
+                    @endforeach
+                @else
+                    $('#author1').select2();
+                @endif
                 $('#submitAuthor').click(function() {
                     let btnHtml = $(this).html();
                     disableBtn(this);
@@ -167,14 +174,13 @@
                         author_lastname: lastname,
                         author_affiliation: affiliation,
                         author_co_author: co_author,
-                        country: country,
+                        author_country: country,
                         manuscript_id: "{{ $manuscriptId }}"
                     };
                     console.log(params)
                     var url = "{{ route('submission.author.validation') }}";
                     removeDisableBtn(this, btnHtml);
                     getAjaxRequests(url, params, 'POST', function(response) {
-                        console.log('success')
 
                     })
                 })
@@ -212,9 +218,14 @@
                                                                             </div>
                                                                             <div class="col-xxl-12 col-md-12">
                                                                                 <label for="" class="form-label">Title</label>
-                                                                                <input type="text" class="form-control author_title" name="author_title[]"
-                                                                                    value="{{ @$submission->title }}" placeholder="title"
-                                                                                    required>
+                                                                               <select class="form-control author_title" id="author_title" name="author_title[]">
+                                                                                    <option value="" selected>Select Title</option>
+                                                                                    @foreach ($titles as $title)
+                                                                                        <option @selected(@$author->title === $title) value="{{ $title }}">{{ $title }}
+                                                                                        </option>
+                                                                                    @endforeach
+
+                                                                                </select>
                                                                             </div>
                                                                             <div class="col-xxl-12 col-md-12">
                                                                                 <label for="" class="form-label">Name</label>
@@ -248,9 +259,9 @@
                                                                                 <label for="" class="form-label">Country</label>
                                                                                 <select id="select${authorCount}" class="country" name="journal_id">
                                                                                     <option value="" selected>Select Country</option>
-                                                                                    <option value="Sindh">Sindh</option>
-                                                                                    <option value="Punjab">Punjab</option>
-                                                                                    <option value="KPK">KPK</option>
+                                                                                    @foreach ($countries['countries'] as $key => $country)
+                                                                                        <option value="{{ $country }}">{{ $country }}</option>
+                                                                                    @endforeach
 
                                                                                 </select>
                                                                             </div>

@@ -33,8 +33,16 @@
                 </div>
                 <div class="col-xxl-12 col-md-12">
                     <label for="" class="form-label">Title</label>
-                    <input type="text" class="form-control author_title" id="author_title" name="author_title[]"
-                        value="{{ @$author->title }}" placeholder="title" required>
+                    <select class="form-control author_title" id="author_title" name="author_title[]">
+                        <option value="" selected>Select Title</option>
+                        @foreach ($titles as $title)
+                            <option @selected(@$author->title === $title) value="{{ $title }}">{{ $title }}
+                            </option>
+                        @endforeach
+
+                    </select>
+                    {{-- <input type="text" class="form-control author_title" id="author_title" name="author_title[]"
+                        value="{{ @$author->title }}" placeholder="title" required> --}}
                 </div>
                 <div class="col-xxl-12 col-md-12">
                     <label for="" class="form-label">Name</label>
@@ -65,15 +73,13 @@
                 </div>
                 <div class="col-xxl-12 col-md-12">
                     <label for="" class="form-label">Country</label>
-                    <select id="author1" class="country" name="author_country[]">
+                    <select id="author{{ $recordType === 'firstRecord' ? '1' : $count }}" class="country"
+                        name="author_country[]">
                         <option value="" selected>Select Country</option>
                         @foreach ($countries['countries'] as $key => $country)
-                            <option value="{{ $country }}">{{ $country }}</option>
+                            <option @selected(@$country == @$author->country) value="{{ $country }}">{{ $country }}
+                            </option>
                         @endforeach
-                        {{--
-                        <option value="Punjab">Punjab</option>
-                        <option value="KPK">KPK</option> --}}
-
                     </select>
                 </div>
                 <div class="col-xxl-12 col-md-12">

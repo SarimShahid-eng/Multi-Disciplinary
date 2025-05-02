@@ -6,11 +6,8 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ManuscriptLayout extends Component
+class SubmittedManuscriptLayout extends Component
 {
-    /**
-     * Create a new component instance.
-     */
 
 
     /**
@@ -18,7 +15,6 @@ class ManuscriptLayout extends Component
      */
     public function render(): View|Closure|string
     {
-        // dd('ss');
-        return view('components.manuscript-layout');
+        return view('components.submitted-manuscript-layout');
     }
 }

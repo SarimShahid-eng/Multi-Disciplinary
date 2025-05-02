@@ -2,35 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Hashids\Hashids;
 use App\Models\Journal;
 use App\Models\Manuscript;
-use App\Models\Submission;
-use App\Helpers\FileUpload;
 use App\Models\ArticleType;
-use App\Models\Submissions;
-use Illuminate\Http\Request;
 use App\Models\ManuscriptAuthors;
-use App\Models\SuggestedReviewer;
 use App\Models\ManuscriptStatement;
-use App\Helpers\FileUploadMimeTypes;
-use Illuminate\Support\Facades\Gate;
-use App\helpers\ManuscriptIdGenerator;
+use App\Helpers\ManuscriptIdGenerator;
 use App\Models\ManuscriptSuggestedReviewer;
-use Illuminate\Validation\ValidationException;
-use App\Http\Requests\TabPane\AuthorTabPaneRequest;
-use App\Http\Requests\TabPane\ReviewerTabPaneRequest;
-use App\Http\Requests\TabPane\StatementTabPaneRequest;
-use App\Http\Requests\TabPane\ManuscriptTabPaneRequest;
+
 
 class SubmissionController extends Controller
 {
-    public function index()
-    {
-        dd('ss');
-        $submissions = Submission::paginate(20);
-        return view('submission.index', compact('submissions'));
-    }
+
     public function reset_manuscript(ManuscriptIdGenerator $gManuscriptId)
     {
         session()->forget('manuscript_id');
@@ -40,26 +23,27 @@ class SubmissionController extends Controller
 
     public function create_manuscript(ManuscriptIdGenerator $gManuscriptId)
     {
-        $IdGenerator = new ManuscriptIdGenerator();
-        $manuscript = $IdGenerator->getLatestId();
-        session(['manuscript_id' => $manuscript]);
         $journals = Journal::all();
         $article_types = ArticleType::all();
         if (session()->has('manuscript_id')) {
-            $manuscript = session('manuscript_id');
-            $manuscript = Manuscript::find($gManuscriptId->decodeId($manuscript)[0]);
+            $manuscriptId = session('manuscript_id');
+            $manuscript = Manuscript::find($gManuscriptId->decodeId($manuscriptId)[0]);
+        } else {
+            $manuscriptId = $gManuscriptId->getLatestId();
+            session(['manuscript_id' => $manuscriptId]);
         }
         $manuscriptId = session('manuscript_id');
-        return view('submission.create_manuscript', compact('journals', 'article_types', 'manuscript', 'manuscriptId'));
+
+        return view('users.submission.create_manuscript', compact('journals', 'article_types', 'manuscript', 'manuscriptId'));
     }
     public function create_author($id, ManuscriptIdGenerator $gManuscriptId)
     {
-
+        $titles = config('titles.titles');
         $id = $gManuscriptId->decodeId($id)[0];
         $authors = ManuscriptAuthors::where('manuscript_id', $id)->get();
         $manuscriptId = session('manuscript_id');
         $countries = config('countries');
-        return view('submission.create_author', compact('authors', 'countries', 'manuscriptId'));
+        return view('users.submission.create_author', compact('authors', 'countries', 'manuscriptId', 'titles'));
     }
     public function create_reviewer($id, ManuscriptIdGenerator $gManuscriptId)
     {
@@ -67,7 +51,7 @@ class SubmissionController extends Controller
         $s_reviewer = ManuscriptSuggestedReviewer::where('manuscript_id', $id)->first();
         $manuscriptId = session('manuscript_id');
 
-        return view('submission.create_reviewer', compact('s_reviewer', 'manuscriptId'));
+        return view('users.submission.create_reviewer', compact('s_reviewer', 'manuscriptId'));
     }
     public function create_statement($id, ManuscriptIdGenerator $gManuscriptId)
     {
@@ -75,7 +59,7 @@ class SubmissionController extends Controller
 
         $id = $gManuscriptId->decodeId($id)[0];
         $m_statement = ManuscriptStatement::where('manuscript_id', $id)->first();
-        return view('submission.create_statement', compact('m_statement', 'manuscriptId'));
+        return view('users.submission.create_statement', compact('m_statement', 'manuscriptId'));
     }
     // public function store(FileUploadMimeTypes $fileUploader, ManuscriptTabPaneRequest $manuscriptData, AuthorTabPaneRequest $authorsData, ReviewerTabPaneRequest $reviewersData, StatementTabPaneRequest $statement)
     // {

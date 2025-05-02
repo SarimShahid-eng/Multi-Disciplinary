@@ -1,6 +1,6 @@
 <?php
 
-namespace App\helpers;
+namespace App\Helpers;
 
 use Hashids\Hashids;
 use App\Models\Manuscript;

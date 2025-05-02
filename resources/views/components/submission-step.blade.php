@@ -1,7 +1,5 @@
     <li>
-        {{-- @dd($manuscript) --}}
         @if ($hasManuscript())
-            {{-- @dd($manuscript) --}}
             <a href="{{ route($route, ['manuscriptId' => $manuscript]) }}" @class([
                 'p-2',
                 'new-class',

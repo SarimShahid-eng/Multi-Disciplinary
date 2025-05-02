@@ -318,8 +318,8 @@
                                                 Submit Manuscript </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ route('submission.index') }}" class="nav-link"
-                                                data-key="t-calendar">
+                                            <a href="{{ route('submitted_manuscripts.incomplete_manuscripts') }}"
+                                                class="nav-link" data-key="t-calendar">
                                                 Display Submitted Manuscripts </a>
                                         </li>
                                         <li class="nav-item">

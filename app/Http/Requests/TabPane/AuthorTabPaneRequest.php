@@ -27,8 +27,8 @@ class AuthorTabPaneRequest extends FormRequest
             'author_email'       => 'required|array',
             'author_email.*'     => 'required|email|max:255',
 
-            'country'       => 'required|array',
-            'country.*'     => 'required|string|max:255',
+            'author_country'       => 'required|array',
+            'author_country.*'     => 'required|string|max:255',
 
             'author_title'       => 'required|array',
             'author_title.*'     => 'required|string|max:255',
@@ -60,7 +60,7 @@ class AuthorTabPaneRequest extends FormRequest
         return [
             'author_email.*.email'        => 'Each email must be a valid email format.',
             'author_email.*.required'     => 'Each author must have a valid email address.',
-            'country.*.required'     => 'Each author must have a country.',
+            'author_country.*.required'     => 'Each author must have a country.',
             'author_title.*.required' => 'Each author must have a Title.',
             'author_firstname.*.required' => 'Each author must have a first name.',
             'author_lastname.*.required'  => 'Each author must have a last name.',
