@@ -29,8 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:author')->group(function () {
         Route::prefix('submission')->name('submission.')->group(function () {
             Route::controller(SubmissionController::class)->group(function () {
-                Route::get('reset-manuscript', 'reset_manuscript')->name('reset_manuscript');
-                // Route::middleware('check.manuscript_step')->group(function () {
+                Route::get('submit-research', 'reset_manuscript')->name('reset_manuscript');
                 Route::get('create-manuscript/{manuscriptId}/1', 'create_manuscript')->name('create_manuscript');
                 Route::get('create-author/{manuscriptId}/2', 'create_author')->name('create_author');
                 Route::get('create-reviewer/{manuscriptId}/3', 'create_reviewer')->name('create_reviewer');

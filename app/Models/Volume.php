@@ -9,8 +9,7 @@ class Volume extends Model
     protected $fillable = [
         'journal_id',
         'year',
-        'start_date',
-        'end_date'
+        'volume'
     ];
 
     public function journal()

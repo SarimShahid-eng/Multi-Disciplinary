@@ -14,12 +14,10 @@ return new class extends Migration
         Schema::create('volumes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('journal_id');
+            $table->string('volume');
             $table->integer('year');
-            $table->date('start_date');
-            $table->date('end_date')->nullable();
-            $table->timestamps();
             $table->foreign('journal_id')->references('id')->on('journals')->onDelete('cascade');
-            $table->unique(['journal_id', 'year']);
+            $table->timestamps();
         });
     }
 

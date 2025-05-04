@@ -25,23 +25,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-xxl-12 col-md-12">
-                                <label for="Select Year" class="d-block">Select Year</label>
-                                <select class="form-control" id="dropdownYear" name="year">
-                                    <option value="" selected>Select Year</option>
-                                </select>
-                            </div>
-                            <div class="col-xxl-12 col-md-12">
-                                <label for="" class="form-label">Start Date</label>
-                                <input name="start_date" type="date" value="{{ @$volume->start_date }}"
-                                    class="form-control">
-                            </div>
-                            <div class="col-xxl-12 col-md-12">
 
-                                <label for="" class="form-label">End Date</label>
-                                <input name="end_date" type="date" value="{{ @$volume->end_date }}"
-                                    class="form-control">
-                            </div>
 
                             <input type="hidden" name="update_id" value="{{ @$volume->id }}">
                             <div class="col-12">

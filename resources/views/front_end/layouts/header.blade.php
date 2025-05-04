@@ -75,7 +75,7 @@
                 <a href="#" class="menu-title">All Articles</a>
             </li>
 
-            <a href="{{ route('submission.create') }}" class="btn nav-btn">Submit Your Research</a>
+            <a href="{{ route('submission.reset_manuscript') }}" class="btn nav-btn">Submit Your Research</a>
         </ul>
     </nav>
     <a href="{{ route('login') }}" class="login btn">Log in</a>
