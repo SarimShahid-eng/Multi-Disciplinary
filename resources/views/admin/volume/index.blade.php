@@ -38,8 +38,8 @@
 
                                                 <th class="sort" data-sort="journal">Journal</th>
                                                 <th class="sort" data-sort="year">Year</th>
-                                                <th class="sort" data-sort="start_date">Start Date</th>
-                                                <th class="sort" data-sort="description">End Date</th>
+                                                <th class="sort" data-sort="volume">Volume</th>
+
                                                 <th class="sort" data-sort="action">Action</th>
                                             </tr>
                                         </thead>
@@ -48,10 +48,8 @@
                                                 <tr>
                                                     <td class="journal">{{ $volume->journal->name }}</td>
                                                     <td class="year">{{ $volume->year }}</td>
-                                                    <td class="start_date">
-                                                        {{ $volume->start_date }}
-                                                    </td>
-                                                    <td class="description">{{ $volume->end_date }}</td>
+                                                    <td class="volume">{{ $volume->volume }}</td>
+
                                                     <td>
                                                         <div class="d-flex gap-2">
                                                             <div class="edit">
