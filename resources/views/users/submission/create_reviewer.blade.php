@@ -161,7 +161,7 @@
             <div class="col-lg-12 col-6 d-flex justify-content-end">
                 <button type="button" id="submitSuggestedReviewer"
                     class="btn btn-primary d-flex alig-items-center ">
-                    Proceed To Next Step <i class="ri-arrow-right-line ms-2"></i>
+                    Proceed To Final Step <i class="ri-arrow-right-line ms-2"></i>
                 </button>
             </div>
         </div>

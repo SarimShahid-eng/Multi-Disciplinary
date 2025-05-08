@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('manuscript_id');
             $table->enum('conflict_interest', [0, 1]);
-            $table->text('conflict_interest_reason')->comment('if conflict interest true');
+            $table->text('conflict_interest_reason')->comment('if conflict interest true')->nullable();
             $table->enum('manuscript_version', [0, 1]);
-            $table->text('manuscript_version_reason')->comment('if manuscript version true');
+            $table->text('manuscript_version_reason')->comment('if manuscript version true')->nullable();
             $table->enum('funding', [0, 1]);
-            $table->text('funding_reason')->comment('if manuscript version true');
+            $table->text('funding_reason')->comment('if manuscript version true')->nullable();
             $table->enum('genAi', [0, 1]);
-            $table->text('genAi_reason')->comment('if gen ai true');
+            $table->text('genAi_reason')->comment('if gen ai true')->nullable();
             $table->foreign('manuscript_id')->references('id')->on('manuscripts')->onDelete('cascade');
 
             $table->timestamps();

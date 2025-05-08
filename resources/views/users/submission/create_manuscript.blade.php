@@ -33,12 +33,6 @@
             flex-grow: 1;
             padding: 5px;
         }
-
-        .cross_icon {
-            border-radius: 0;
-            color: white;
-            font-weight: bold;
-        }
     </style>
     <div class="heading-sub_heading mb-3">
         <h5 class="mb-0">Manuscript Details</h5>

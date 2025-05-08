@@ -361,7 +361,8 @@
                                                 Editor Profile</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="" class="nav-link" data-key="t-calendar">
+                                            <a href="{{ route('decision.editor_decision') }}" class="nav-link"
+                                                data-key="t-calendar">
                                                 Decisions</a>
                                         </li>
                                         <li class="nav-item">

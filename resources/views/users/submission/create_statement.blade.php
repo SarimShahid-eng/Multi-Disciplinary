@@ -1,8 +1,13 @@
 <x-manuscript-layout>
     <style>
-        .swal2-popup .swal2-title {
-            font-weight: 500 !important;
-            font-size: 1.675em !important;
+        .swal2-confirm {
+            /* padding: 4px 12px !important; */
+            /* font-size: 0.75rem !important; */
+        }
+
+        .swal2-cancel {
+            /* padding: 4px 12px !important; */
+            /* font-size: 0.75rem !important; */
         }
     </style>
     <div class="tab-pane" id="statementInformation" role="tabpanel">
@@ -139,7 +144,7 @@
 
                 <div class="col-lg-12 col-6 d-flex justify-content-end">
                     <button type="button" id="submitStatement" class="btn btn-primary d-flex alig-items-center ">
-                        Proceed To Next Step <i class="ri-arrow-right-line ms-2"></i>
+                        Confirm Submit <i class="ri-arrow-right-line ms-2"></i>
                     </button>
                 </div>
             </div>
@@ -149,11 +154,10 @@
         <!--end row-->
         {{-- </form> --}}
         @push('page-script')
-            {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
             <script>
                 $('#submitStatement').click(function() {
                     let btnHtml = $(this).html();
-                    disableBtn(this);
+
                     var url = "{{ route('submission.statement.validation') }}";
                     var params = {
                         conflict_interest: $('input[name="conflict_interest"]:checked').val(),
@@ -166,8 +170,26 @@
                         genAi_reason: $('textarea[name="genAi_reason"]').val(),
                         manuscript_id: "{{ $manuscriptId }}"
                     };
-                    removeDisableBtn(this, btnHtml);
-                    getAjaxRequests(url, params, 'POST', function(response) {}, true, 2000)
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "By this action manuscript will be submitted!",
+                        type: "warning",
+                        showCancelButton: !0,
+                        confirmButtonColor: "#405189",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, activate!",
+                        cancelButtonText: "No,don't",
+                        didOpen: () => {
+                            document.querySelector('.swal2-icon').style.border = 'none';
+                        }
+                    }).then(function(t) {
+                        if (t.value) {
+                            getAjaxRequests(url, params, 'POST', function(response) {}, true, 2000)
+                        }
+                    })
+
                 })
             </script>
         @endpush

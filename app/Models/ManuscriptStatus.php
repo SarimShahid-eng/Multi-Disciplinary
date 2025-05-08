@@ -22,4 +22,8 @@ class ManuscriptStatus extends Model
             'changed_by' => $userId ?? auth()->id(),
         ]);
     }
+    public function manuscript()
+    {
+        return $this->belongsTo(Manuscript::class);
+    }
 }

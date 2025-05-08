@@ -30,14 +30,15 @@ function initAjaxForm() {
         disabled_btn = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Loading...';
 
     if (submit_btn === null || submit_btn === undefined || submit_btn === '') {
-        submit_btn = 'Submit';
+        submit_btn = $("form.ajaxForm button[type='submit']").html();
     }
 
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
         }
-    })
+    });
+
     $("form.ajaxForm button[type='submit']").removeAttr('disabled');
     $("form.ajaxForm").parsley();
 
@@ -46,28 +47,40 @@ function initAjaxForm() {
         beforeSubmit: function () {
             page_loader('show');
 
-            $("button[type=submit]").attr("disabled", 'disabled').html(disabled_btn);
+            $("form.ajaxForm button[type='submit']").attr("disabled", 'disabled').html(disabled_btn);
 
             if ($("form.ajaxForm").hasClass('popup')) {
-                r = confirm("Are you sure?");
+                var r = confirm("Are you sure?");
                 if (!r) {
-                    $("button[type=submit]").removeAttr("disabled").html(submit_btn);
+                    var submitButton = $("form.ajaxForm button[type='submit']");
+                    submitButton.removeAttr("disabled");
+                    if (submitButton.hasClass("set-submit-text")) {
+                        submitButton.html("Submit");
+                    }
                     page_loader('hide');
                     return false;
                 }
             }
-
         },
         complete: function () {
             page_loader('hide');
         },
         error: function (data, err, msg) {
-            page_loader('hide');
-            $("button[type=submit]").removeAttr("disabled").html(submit_btn);
+            var submitButton = $("form.ajaxForm button[type='submit']");
+            submitButton.removeAttr("disabled");
+            if (submitButton.hasClass("set-submit-text")) {
+                submitButton.html("Submit");
+            }
             ajaxErrorHandling(data, msg);
         },
         success: function (data) {
-            $("button[type=submit]").removeAttr("disabled").html(submit_btn);
+            var submitButton = $("form.ajaxForm button[type='submit']");
+            submitButton.removeAttr("disabled");
+            if (submitButton.hasClass("set-submit-text")) {
+                submitButton.html("Submit");
+            }else{
+                submitButton.html(submit_btn);
+            }
 
             if (data['error'] !== undefined) {
                 toast(data['error'], "Error!", 'error');
@@ -86,8 +99,8 @@ function initAjaxForm() {
                 window.setTimeout(function () {
                     window.location = data['redirect'];
                 }, 2000);
-
             }
+
             if (data['reload'] !== undefined) {
                 window.setTimeout(function () {
                     window.location.reload(true);
@@ -96,6 +109,7 @@ function initAjaxForm() {
         }
     });
 }
+
 function initAjaxFormImage() {
     // alert()
     var submit_btn = $("form.ajax-image-Form").data("submitBtn"),
@@ -426,7 +440,6 @@ function removeDisableBtn(button, html) {
 
 
 $(document).ready(function () {
-    // alert('..')
     initAjaxForm();
     initAjaxFormImage();
 });

@@ -40,7 +40,6 @@
                                                 <th class="sort" data-sort="file_path">File Path</th>
                                                 <th class="sort" data-sort="keywords">Keywords</th>
                                                 <th class="sort" data-sort="status">Status</th>
-                                                {{-- <th class="sort" data-sort="action">Action</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all">

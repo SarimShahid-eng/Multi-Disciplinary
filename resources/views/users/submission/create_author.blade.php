@@ -1,5 +1,11 @@
 <x-manuscript-layout>
-
+    <style>
+        .cross_icon {
+            border-radius: 0;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
     <div class="tab-pane " id="authorInformation" role="tabpanel">
         <div class="heading-sub_heading mb-3">
             <h5 class="mb-0">Author Details</h5>

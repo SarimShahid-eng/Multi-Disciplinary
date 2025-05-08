@@ -24,15 +24,15 @@ class ReviewerTabPaneRequest extends FormRequest
         // dd($this->all());
         return [
             'manuscript_id' => 'required',
-            'suggested_reviewer_1_email' => 'required|email',
+            'suggested_reviewer_1_email' => 'required|email|different:suggested_reviewer_2_email,suggested_reviewer_3_email',
             'suggested_reviewer_1_firstname' => 'required',
             'suggested_reviewer_1_lastname' => 'required',
             'suggested_reviewer_1_affiliation' => 'required',
-            'suggested_reviewer_2_email' => 'required|email',
+            'suggested_reviewer_2_email' => 'required|email|different:suggested_reviewer_1_email,suggested_reviewer_3_email',
             'suggested_reviewer_2_firstname' => 'required',
             'suggested_reviewer_2_lastname' => 'required',
             'suggested_reviewer_2_affiliation' => 'required',
-            'suggested_reviewer_3_email' => 'required|email',
+            'suggested_reviewer_3_email' => 'required|email|different:suggested_reviewer_1_email,suggested_reviewer_2_email',
             'suggested_reviewer_3_firstname' => 'required',
             'suggested_reviewer_3_lastname' => 'required',
             'suggested_reviewer_3_affiliation' => 'required',
@@ -43,15 +43,21 @@ class ReviewerTabPaneRequest extends FormRequest
         return [
             'suggested_reviewer_1_email.required' => 'Suggested Reviewer 1 email is required',
             'suggested_reviewer_1_email.email' => 'Suggested Reviewer 1 email must be a valid email address',
+            'suggested_reviewer_1_email.different' => 'The email address for Reviewer 1 must be different from those of Reviewer 2 and Reviewer 3.',
+
             'suggested_reviewer_1_firstname.required' => 'Suggested Reviewer 1 firstname is required',
             'suggested_reviewer_1_lastname.required' => 'Suggested Reviewer 1 lastname is required',
             'suggested_reviewer_1_affiliation.required' => 'Suggested Reviewer 1 lastname is required',
+
+            'suggested_reviewer_2_email.different' => 'The email address for Reviewer 2 must be different from those of Reviewer 1 and Reviewer 3.',
             'suggested_reviewer_2_email.required' => 'Suggested Reviewer 2 email is required',
             'suggested_reviewer_2_email.email' => 'Suggested Reviewer 2 email must be a valid email address',
             'suggested_reviewer_2_firstname.required' => 'Suggested Reviewer 2 firstname is required',
             'suggested_reviewer_2_lastname.required' => 'Suggested Reviewer 2 lastname is required',
             'suggested_reviewer_2_affiliation.required' => 'Suggested Reviewer 2 lastname is required',
+
             'suggested_reviewer_3_email.required' => 'Suggested Reviewer 3 email is required',
+            'suggested_reviewer_3_email.different' => 'The email address for Reviewer 3 must be different from those of Reviewer 1 and Reviewer 2.',
             'suggested_reviewer_3_email.email' => 'Suggested Reviewer 3 email must be a valid email address',
             'suggested_reviewer_3_firstname.required' => 'Suggested Reviewer 3 firstname is required',
             'suggested_reviewer_3_lastname.required' => 'Suggested Reviewer 3 lastname is required',

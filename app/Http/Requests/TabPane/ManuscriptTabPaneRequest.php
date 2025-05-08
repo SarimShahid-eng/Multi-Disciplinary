@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\TabPane;
 
+use App\Rules\MaxWords;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ManuscriptTabPaneRequest extends FormRequest
@@ -27,9 +28,9 @@ class ManuscriptTabPaneRequest extends FormRequest
             'manuscript_id' => 'nullable',
             'journal_id' => 'required|integer',
             'file' => 'required',
-            'article_type_id' => 'required|in:1,2,3,4,5,6,7',
+            'article_type_id' => 'required',
             'title' => 'required|string|max:255',
-            'abstract' => 'required|string|max:255',
+            'abstract' => ['required', 'string', new MaxWords(320)],
             'keyword' => 'required|string|max:255',
         ];
     }

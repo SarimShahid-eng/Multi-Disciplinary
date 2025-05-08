@@ -42,7 +42,8 @@ class FileUploadMimeTypes
     public function validateFile($file, string $fieldName, array $allowedFormats,): array
     {
         // $allowedFormats = ['pdf', 'tex', 'docx']; // Supported file formats
-        $maxFileSize = 2048; // Maximum file size in KB (2MB)
+        $maxFileSize =  15360; // 15MB (15 * 1024 KB)
+        $maxFileSizeMB = $maxFileSize / 1024; // Convert to MB for the error message
 
         $validator = Validator::make(
             ['file' => $file],
@@ -52,7 +53,7 @@ class FileUploadMimeTypes
             [
                 'file.required' => "The $fieldName is required.",
                 'file.mimetypes' => 'The uploaded file must be a valid Microsoft Word document (.docx).',
-                'file.max' => "The $fieldName may not be greater than $maxFileSize KB."
+                'file.max' => "The $fieldName may not be greater than $maxFileSizeMB MB."
             ]
         );
 

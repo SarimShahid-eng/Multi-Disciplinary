@@ -25,7 +25,7 @@ class AuthorTabPaneRequest extends FormRequest
             'manuscript_id' => 'required',
             'manuscript_author_id' => 'nullable',
             'author_email'       => 'required|array',
-            'author_email.*'     => 'required|email|max:255',
+            'author_email.*' => 'required|email|max:255|distinct',
 
             'author_country'       => 'required|array',
             'author_country.*'     => 'required|string|max:255',
@@ -58,6 +58,8 @@ class AuthorTabPaneRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'author_email.*.distinct'    => 'Same email addresses are not allowed. Each author must have a unique email address.',
+            'author_email.*.max'         => 'Each author email must not exceed 255 characters.',
             'author_email.*.email'        => 'Each email must be a valid email format.',
             'author_email.*.required'     => 'Each author must have a valid email address.',
             'author_country.*.required'     => 'Each author must have a country.',

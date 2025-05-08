@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User\Submissions;
 
 use App\Models\Journal;
 use App\Models\Manuscript;
 use App\Models\ArticleType;
 use App\Models\ManuscriptAuthors;
 use App\Models\ManuscriptStatement;
+use App\Http\Controllers\Controller;
 use App\Helpers\ManuscriptIdGenerator;
 use App\Models\ManuscriptSuggestedReviewer;
 
@@ -38,6 +39,7 @@ class SubmissionController extends Controller
     }
     public function create_author($id, ManuscriptIdGenerator $gManuscriptId)
     {
+        // dd($id);
         $titles = config('titles.titles');
         $id = $gManuscriptId->decodeId($id)[0];
         $authors = ManuscriptAuthors::where('manuscript_id', $id)->get();
@@ -50,7 +52,6 @@ class SubmissionController extends Controller
         $id = $gManuscriptId->decodeId($id)[0];
         $s_reviewer = ManuscriptSuggestedReviewer::where('manuscript_id', $id)->first();
         $manuscriptId = session('manuscript_id');
-
         return view('users.submission.create_reviewer', compact('s_reviewer', 'manuscriptId'));
     }
     public function create_statement($id, ManuscriptIdGenerator $gManuscriptId)

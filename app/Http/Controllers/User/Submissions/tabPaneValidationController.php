@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User\Submissions;
+
 
 use App\Models\Manuscript;
 use App\Models\ManuscriptStatus;
@@ -8,6 +9,7 @@ use App\Models\ManuscriptAuthors;
 use App\Models\ManuscriptTracker;
 use App\Models\ManuscriptStatement;
 use App\Helpers\FileUploadMimeTypes;
+use App\Http\Controllers\Controller;
 use App\helpers\ManuscriptIdGenerator;
 use App\Models\ManuscriptSuggestedReviewer;
 use Illuminate\Validation\ValidationException;
@@ -24,6 +26,7 @@ class tabPaneValidationController extends Controller
         $uploadPath = '/users-uploaded-file';
         $allowedFormats = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
         $file = $request->file('file')[0];
+
         $fieldName = 'file';
         $result = $fileUpload->validateFile($file, $fieldName, $allowedFormats);
         if (is_array($result) && array_key_exists("error", $result)) {
@@ -45,8 +48,12 @@ class tabPaneValidationController extends Controller
         } else {
             $manuscript = Manuscript::create($Input);
         }
+        $mansuritptId = $manuscript->id;
+        $CustommanuscriptId = $this->formingManuscriptId($manuscript);
+        Manuscript::where('id', $mansuritptId)->update(['manuscriptId' => $CustommanuscriptId]); //mark as completed
+
         ManuscriptTracker::create([
-            'manuscript_id' => $manuscript->id,
+            'manuscript_id' => $mansuritptId,
             'step1' => true,
         ]);
         return response()->json([
@@ -110,7 +117,6 @@ class tabPaneValidationController extends Controller
         return response()->json([
             'message' => 'success',
             'redirect' => route('submission.create_statement', $manuscriptId),
-
         ]);
     }
     public function statementValidation(StatementTabPaneRequest $request, ManuscriptIdGenerator $gManuscriptId)
@@ -133,8 +139,24 @@ class tabPaneValidationController extends Controller
         $newEncodedId = $gManuscriptId->getLatestId();
         session(['manuscript_id' => $newEncodedId]);
         return response()->json([
-            'message' => 'success',
             'redirect' => route('submission.create_manuscript', $newEncodedId),
         ]);
+    }
+    private function formingManuscriptId(Manuscript $manuscript): string
+    {
+        // Get the journal name safely
+        $journalName = $manuscript->journal->name ?? 'Unknown';
+
+        // Remove "Impact in" (case-insensitive)
+        $formattedJournal = preg_replace('/Impact in\s*/i', '', $journalName);
+
+        // Remove spaces, convert to StudlyCase (e.g., "ComputerScience")
+        $formattedJournal = \Illuminate\Support\Str::studly($formattedJournal);
+
+        // Pad manuscript ID with 0s to ensure it's 5 digits
+        $paddedId = str_pad($manuscript->id, 5, '0', STR_PAD_LEFT);
+
+        // Combine to get the final ID
+        return $formattedJournal . '-' . $paddedId;
     }
 }

@@ -14,16 +14,13 @@ return new class extends Migration
         Schema::create('manuscripts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('journal_id');
+            $table->string('manuscriptId', 255)->nullable()->unique();
             $table->string('title', 255);
             $table->text('abstract');
             $table->string('file_path', 255);
             $table->json('keywords')->nullable();
             $table->boolean('is_completed')->default(false);
-            // $table->enum('status', ['incomplete', 'completed'])->default('incomplete');
-            // $table->enum('status', ['submitted', 'under review', 'accepted', 'rejected', 'revision requested'])->default('submitted');
             $table->timestamp('submission_date')->default(now());
-            // $table->timestamp('decision_date')->nullable();
-            // $table->timestamp('accepted_date')->nullable();
             $table->unsignedBigInteger('article_type_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
