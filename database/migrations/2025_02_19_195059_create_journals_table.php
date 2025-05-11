@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('journals', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->unique();
+            $table->string('email', 255)->unique();
             $table->string('issn', 50)->unique();
             $table->foreignId('editor_in_chief_id')->nullable()->constrained('users')->onDelete('set null');
             $table->text('description')->nullable();

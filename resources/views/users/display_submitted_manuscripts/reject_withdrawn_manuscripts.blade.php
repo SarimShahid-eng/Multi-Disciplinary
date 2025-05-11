@@ -8,9 +8,10 @@
                 <td>{{ 'rejected by editor' }}</td>
                 <td>{{ \Carbon\Carbon::parse(@$rejectWithdrawn->submission_date)->format('Y-m-d') }}</td>
 
-                <td><button class="btn btn-primary btn-sm ps-2 pe-2 pt-0 pb-0">
+                <td>
+                    <a href="{{ route('mansucript_details.view',['manuscriptId'=>$rejectWithdrawn->encoded_id]) }}" class="btn btn-primary btn-sm ps-2 pe-2 pt-0 pb-0">
                         <i class="ri-eye-fill"></i>
-                    </button>
+                    </a>
 
                 </td>
             </tr>

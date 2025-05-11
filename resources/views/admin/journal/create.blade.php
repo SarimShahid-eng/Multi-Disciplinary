@@ -21,11 +21,15 @@
                                     placeholder="Name" required>
                             </div>
                             <div class="col-xxl-12 col-md-12">
+                                <label for="" class="form-label">Email</label>
+                                <input type="text" class="form-control" name="email" value="{{ @$journal->email }}"
+                                    placeholder="Email" required>
+                            </div>
+                            <div class="col-xxl-12 col-md-12">
                                 <label for="" class="form-label">Issn</label>
                                 <input type="text" class="form-control" name="issn" value="{{ @$journal->issn }}"
                                     placeholder="Issn" required>
                             </div>
-                            {{-- @dd($editorInChiefs) --}}
 
                             <div class="col-xxl-12 col-md-12">
                                 <label for="country" class="d-block">Select Editor In Chief</label>

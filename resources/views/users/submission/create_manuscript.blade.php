@@ -118,6 +118,7 @@
                     var params = {
                         journal_id: $('#journal_id').val(),
                         file: 'file',
+                        old_file:"{{ @$manuscript->file_path }}",
                         article_type_id: $('#article_type').val(),
                         title: $('#title').val(),
                         abstract: $('#abstract').val(),

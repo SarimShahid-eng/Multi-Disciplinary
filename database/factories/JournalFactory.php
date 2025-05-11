@@ -17,10 +17,11 @@ class JournalFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'issn' => fake()->unique()->numberBetween(10000000, 99999999),
-            'editor_in_chief_id' => 1,
-            'description' => fake()->text(),
+            'name' => 'Impact in Computer Science',
+            'email'=>'sarimshah456@gmail.com',
+            'issn' => '1940-087X',
+            'editor_in_chief_id' => 3,
+            'description' => 'Journal of Computer science',
 
 
         ];

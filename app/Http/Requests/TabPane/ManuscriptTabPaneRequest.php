@@ -23,11 +23,11 @@ class ManuscriptTabPaneRequest extends FormRequest
      */
     public function rules(): array
     {
-        // dd($this->all());
+        // dd($this->old_file);
         return [
             'manuscript_id' => 'nullable',
             'journal_id' => 'required|integer',
-            'file' => 'required',
+           'file' => $this->old_file ? 'nullable' : 'required',
             'article_type_id' => 'required',
             'title' => 'required|string|max:255',
             'abstract' => ['required', 'string', new MaxWords(320)],

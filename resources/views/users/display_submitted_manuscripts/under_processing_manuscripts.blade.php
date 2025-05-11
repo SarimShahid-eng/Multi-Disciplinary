@@ -5,7 +5,7 @@
                 <td>{{ @$underProcessing->manuscriptId }}</td>
                 <td>{{ @$underProcessing->journal->name }}</td>
                 <td>{{ @$underProcessing->title }}</td>
-                <td> Under processing </td>
+                <td> Submitted </td>
                 <td>{{ \Carbon\Carbon::parse(@$underProcessing->submission_date)->format('Y-m-d') }}</td>
 
                 <td><button class="btn btn-primary btn-sm ps-2 pe-2 pt-0 pb-0">

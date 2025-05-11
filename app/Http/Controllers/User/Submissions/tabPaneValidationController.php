@@ -7,9 +7,11 @@ use App\Models\Manuscript;
 use App\Models\ManuscriptStatus;
 use App\Models\ManuscriptAuthors;
 use App\Models\ManuscriptTracker;
+use App\Mail\ManuscriptAuthorMail;
 use App\Models\ManuscriptStatement;
 use App\Helpers\FileUploadMimeTypes;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\helpers\ManuscriptIdGenerator;
 use App\Models\ManuscriptSuggestedReviewer;
 use Illuminate\Validation\ValidationException;
@@ -23,7 +25,9 @@ class tabPaneValidationController extends Controller
     public $manuscriptId;
     public function manuscriptValidation(ManuscriptIdGenerator $gManuscriptId, FileUploadMimeTypes $fileUpload, ManuscriptTabPaneRequest $request)
     {
-        $uploadPath = '/users-uploaded-file';
+        $uploadedFileName=$request->old_file;
+        if(is_null($request->old_file)){
+            $uploadPath = '/users-uploaded-file';
         $allowedFormats = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
         $file = $request->file('file')[0];
 
@@ -35,6 +39,7 @@ class tabPaneValidationController extends Controller
             ]);
         }
         $uploadedFileName = $fileUpload->uploadFile($uploadPath, $file, $fieldName, $allowedFormats);
+    }
         $Input = $request->validated();
         $Input['file_path'] = $uploadedFileName;
         $Input['user_id'] = auth()->user()->id;

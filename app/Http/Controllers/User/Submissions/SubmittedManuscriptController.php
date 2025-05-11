@@ -29,7 +29,7 @@ class SubmittedManuscriptController extends Controller
         $this->setManuscriptStatusCounts();
         $underProcessings = $count = Manuscript::where('user_id', auth()->id())
             ->whereHas('latestStatus', function ($query) {
-                $query->where('status', 'under review');
+                $query->where('status', 'submitted');
             })
             ->with('journal:id,name')
             ->get();
@@ -76,7 +76,15 @@ class SubmittedManuscriptController extends Controller
             'reload' => true,
         ]);
     }
-
+function view_manuscript_details($manuscriptId, ManuscriptIdGenerator $gManuscriptId){
+    $decodedId = $gManuscriptId->decodeId($manuscriptId)[0];
+    $manuscript = Manuscript::with(['journal:id,name', 'latestStatus', 'articleType:id,name','manuscriptStatement','suggestedReviewer'])
+        ->where('id', $decodedId)
+        ->first();
+        return view('users.display_submitted_manuscripts.view_manuscript_details', compact('manuscript'));
+        // dd($manuscript);
+    // dd($gManuscriptId->decodeId($manuscriptId)[0]);
+}
     private function setManuscriptStatusCounts()
     {
         $userId = auth()->id();
@@ -85,10 +93,10 @@ class SubmittedManuscriptController extends Controller
             return Manuscript::where('user_id', $userId)->where('is_completed', false)->count();
         });
 
-        Cache::remember('underReview', 60, function () use ($userId) {
+        Cache::remember('underProcessing', 60, function () use ($userId) {
             return Manuscript::where('user_id', $userId)
                 ->whereHas('latestStatus', function ($query) {
-                    $query->where('status', 'under review');
+                    $query->where('status', 'submitted');
                 })
                 ->count();
         });

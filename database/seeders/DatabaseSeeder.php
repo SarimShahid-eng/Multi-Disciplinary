@@ -49,6 +49,15 @@ class DatabaseSeeder extends Seeder
         // ]);
         // $associateEditor->roles()->attach($associateEditorRole);
         // Admin::factory(1)->create();
-        Journal::factory(1)->create();
+        // Journal::factory(1)->create([
+        //     'name'=>'Impact in Nano Science',
+        //     'email'=>'Younus343@gmail.com',
+        //     'issn'=>'1940-0871',
+        //     'editor_in_chief_id'=>5,
+        //     'description'=>'Journal of nano Science',
+
+        // ]);
+        // Journal::factory(1)->create();
+
     }
 }

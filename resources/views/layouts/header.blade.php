@@ -13,3 +13,5 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="{{ asset('asset') }}/css/sweetalert2.min.css" />
+@stack('style')
+

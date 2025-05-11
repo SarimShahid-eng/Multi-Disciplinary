@@ -12,11 +12,9 @@ class JournalController extends Controller
 {
     function index()
     {
-        // dd('ss');
         $journals = Journal::with(['editor_in_chief' => function ($q) {
             return $q->select('id', 'firstname', 'lastname');
         }])->paginate(10);
-        // dd($journals);
         return view('admin.journal.index', compact('journals'));
     }
     function create()
@@ -24,7 +22,6 @@ class JournalController extends Controller
         $users = User::whereHas('roles', function ($query) {
             $query->where('name', 'editor-in-chief');
         })->get();
-        // dd($users);
         return view('admin.journal.create', compact('users'));
     }
 
@@ -44,6 +41,7 @@ class JournalController extends Controller
             [
                 'name' => 'required',
                 'issn' => 'required',
+                'email'=>'required|email|unique:journals,email,'.$request->update_id,
                 'editor_in_chief_id' => 'required',
                 'description' => 'required',
             ],

@@ -12,6 +12,7 @@ class Journal extends Model
 
     protected  $fillable = [
         'name',
+        'email',
         'issn',
         'editor_in_chief_id',
         'description'

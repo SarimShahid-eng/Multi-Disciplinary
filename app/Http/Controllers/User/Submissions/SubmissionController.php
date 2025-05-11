@@ -6,8 +6,10 @@ use App\Models\Journal;
 use App\Models\Manuscript;
 use App\Models\ArticleType;
 use App\Models\ManuscriptAuthors;
+use App\Mail\ManuscriptAuthorMail;
 use App\Models\ManuscriptStatement;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\Helpers\ManuscriptIdGenerator;
 use App\Models\ManuscriptSuggestedReviewer;
 
@@ -17,6 +19,13 @@ class SubmissionController extends Controller
 
     public function reset_manuscript(ManuscriptIdGenerator $gManuscriptId)
     {
+        try {
+        Mail::to('sarimshah323@gmail.com')->send(new ManuscriptAuthorMail());
+        return "Mail sent successfully.";
+    } catch (\Exception $e) {
+        return "Mail failed: " . $e->getMessage();
+    }
+
         session()->forget('manuscript_id');
         $newEncodedId = $gManuscriptId->getLatestId();
         return redirect()->route('submission.create_manuscript', $newEncodedId);

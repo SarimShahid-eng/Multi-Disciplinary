@@ -65,12 +65,22 @@ function initAjaxForm() {
         complete: function () {
             page_loader('hide');
         },
-        error: function (data, err, msg) {
+       error: function (data, err, msg) {
             var submitButton = $("form.ajaxForm button[type='submit']");
             submitButton.removeAttr("disabled");
+
+            // Restore original text always
             if (submitButton.hasClass("set-submit-text")) {
                 submitButton.html("Submit");
+            } else {
+                // Use previously saved submit text
+                var originalText = $("form.ajaxForm").data('submitBtn');
+                if (!originalText) {
+                    originalText = submit_btn; // fallback
+                }
+                submitButton.html(originalText);
             }
+
             ajaxErrorHandling(data, msg);
         },
         success: function (data) {

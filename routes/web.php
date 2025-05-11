@@ -18,7 +18,6 @@ Route::get('user/dashboard', function () {
 })->middleware(['auth', 'verified', 'authorRestrict'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    // Route::prefix('user-dashboard')->middleware(['authorRestrict'])->group(function () {
     Route::prefix('user-dashboard')->group(function () {
 
         Route::middleware('role:reviewer')->group(function () {
@@ -56,6 +55,14 @@ Route::middleware('auth')->group(function () {
             Route::post('delete-incomplete-manuscripts', 'delete_incomplete')->name('delete_incomplete');
         });
     });
+        Route::middleware('role:editor-in-chief,associate-editor,assistant-editor,author')->group(function () {
+            Route::controller(SubmittedManuscriptController::class)->name('mansucript_details.')->group(function () {
+                Route::get('review_info/{manuscriptId}', 'view_manuscript_details')->name('view');
+            });
+        });
+
+
+
     Route::middleware('role:editor-in-chief,associate-editor')->group(function () {
         Route::controller(DecisionsController::class)->name('decision.')->group(function () {
             Route::get('editor-decision', 'editor_decision')->name('editor_decision');
