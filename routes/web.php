@@ -51,19 +51,21 @@ Route::middleware('auth')->group(function () {
             Route::get('under-processing-submissions', 'under_processing_manuscripts')->name('under_processing_manuscripts');
             Route::get('website-online-submissions', 'website_online_manuscripts')->name('website_online_manuscripts');
             Route::get('rejected-withdrawn-archived-submissions', 'reject_withdrawn_manuscripts')->name('reject_withdrawn_manuscripts');
-            Route::get('incomplete-submissions', 'incomplete_manuscripts')->name('incomplete_manuscripts');
             Route::post('delete-incomplete-manuscripts', 'delete_incomplete')->name('delete_incomplete');
         });
     });
         Route::middleware('role:editor-in-chief,associate-editor,assistant-editor,author')->group(function () {
             Route::controller(SubmittedManuscriptController::class)->name('mansucript_details.')->group(function () {
-                Route::get('review_info/{manuscriptId}', 'view_manuscript_details')->name('view');
+                Route::get('review_info/{manuscriptId}', 'view_manuscript_details')->name('view_manuscript_details');
+                Route::post('fetch_email_related_data', 'fetch_email_data')->name('fetch_email_data');
+                Route::post('submit-decision', 'submit_decision')->name('submit_decision');
             });
         });
 
 
 
     Route::middleware('role:editor-in-chief,associate-editor')->group(function () {
+        // deciding the status of the manuscript
         Route::controller(DecisionsController::class)->name('decision.')->group(function () {
             Route::get('editor-decision', 'editor_decision')->name('editor_decision');
             Route::get('reject-manuscript/{manuscript}', 'reject_manuscript')->name('reject_manuscript');

@@ -21,5 +21,9 @@ class Journal extends Model
     {
         return $this->belongsTo(User::class, 'editor_in_chief_id');
     }
+    public function volumes()
+{
+    return $this->hasMany(Volume::class);
+}
     //
 }

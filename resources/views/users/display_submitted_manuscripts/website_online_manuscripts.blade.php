@@ -9,10 +9,9 @@
 
                 <td>{{ \Carbon\Carbon::parse(@$publish->submission_date)->format('Y-m-d') }}</td>
 
-                <td><button class="btn btn-primary btn-sm ps-2 pe-2 pt-0 pb-0">
-                        <i class="ri-eye-fill"></i>
-                    </button>
-
+                <td><a href="#">
+                      <i data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="search" class="ri-search-line text-primary fw-medium" ></i>
+                    </a>
                 </td>
             </tr>
         @empty

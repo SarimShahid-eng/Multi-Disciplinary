@@ -3,7 +3,6 @@
     <x-slot name="rows">
         @forelse ($incompleteManuscripts as $incompleteManuscript)
             <tr>
-                <td>{{ @$incompleteManuscript->manuscriptId }}</td>
                 <td>{{ @$incompleteManuscript->journal->name }}</td>
                 <td>{{ @$incompleteManuscript->title }}</td>
                 <td>Step {{ $incompleteManuscript->completed_steps_count }} of 4</td>

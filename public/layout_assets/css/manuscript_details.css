@@ -9,17 +9,13 @@
   --black: black;
   --footer: #1a1a1a;
 }
+.submission-details,.manuscript-title{
+  font-family: "Merriweather", serif;
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Merriweather", serif;
 }
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Merriweather", serif;
+
+.submission-info,.data-container{
+  background-color: var(--white);
 }
 
 /* Main Content Styles */
@@ -52,7 +48,7 @@ body {
   display: grid;
   grid-template-columns: 130px 1fr;
   gap: 10px;
-  margin: 0;
+    margin-bottom: 1rem;
   padding: 0;
   line-height: 1.4;
 }
@@ -189,13 +185,12 @@ body {
 .author-body,
 .manuscript-body,
 .apc-info-body,
-.funding-body,
-.submission-details {
+.funding-body {
   padding: 10px;
   background: var(--white);
 }
 
-.row {
+.custom-row {
   display: grid;
   grid-template-columns: 180px 1fr;
   gap: 10px;

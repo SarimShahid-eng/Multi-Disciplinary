@@ -54,8 +54,7 @@ class tabPaneValidationController extends Controller
             $manuscript = Manuscript::create($Input);
         }
         $mansuritptId = $manuscript->id;
-        $CustommanuscriptId = $this->formingManuscriptId($manuscript);
-        Manuscript::where('id', $mansuritptId)->update(['manuscriptId' => $CustommanuscriptId]); //mark as completed
+         //mark as completed
 
         ManuscriptTracker::create([
             'manuscript_id' => $mansuritptId,
@@ -105,6 +104,7 @@ class tabPaneValidationController extends Controller
             'redirect' => route('submission.create_reviewer', $Input['manuscript_id']),
 
         ]);
+
     }
     public function reviewerValidation(ReviewerTabPaneRequest $request, ManuscriptIdGenerator $gManuscriptId)
     {
@@ -132,6 +132,7 @@ class tabPaneValidationController extends Controller
 
         $Input['manuscript_id'] = $decodedId;
         $findRecord = ManuscriptStatement::where('manuscript_id', $decodedId)->first();
+
         if ($findRecord) {
             $findRecord->update($Input);
         } else {
@@ -140,8 +141,20 @@ class tabPaneValidationController extends Controller
         ManuscriptTracker::where('manuscript_id', $decodedId)->update(['step4' => true]);
         Manuscript::where('id', $decodedId)->update(['is_completed' => true]); //mark as completed
         ManuscriptStatus::logStatus($decodedId, 'submitted');
+    //    Find record form and update custom manuscript id
+        $manuscript = Manuscript::find($decodedId);
+        $CustommanuscriptId = $this->formingManuscriptId($manuscript);
+        Manuscript::where('id', $decodedId)->update(['manuscriptId' => $CustommanuscriptId]);
 
         $newEncodedId = $gManuscriptId->getLatestId();
+
+    // Send email to the selected authors
+        ManuscriptAuthors::where('manuscript_id', $decodedId)->get()->each(function ($author) use ($CustommanuscriptId) {
+                Mail::to($author->email)
+                    ->queue(new ManuscriptAuthorMail($author));
+
+        });
+
         session(['manuscript_id' => $newEncodedId]);
         return response()->json([
             'redirect' => route('submission.create_manuscript', $newEncodedId),
@@ -155,13 +168,19 @@ class tabPaneValidationController extends Controller
         // Remove "Impact in" (case-insensitive)
         $formattedJournal = preg_replace('/Impact in\s*/i', '', $journalName);
 
+        $latestVolume = $manuscript->journal->volumes()->latest()->first();
+
+        $volumeNumber = '00'; // default fallback
+        if ($latestVolume && preg_match('/\d+/', $latestVolume->volume, $matches)) {
+            $volumeNumber = $matches[0]; // first number found
+        }
+
         // Remove spaces, convert to StudlyCase (e.g., "ComputerScience")
         $formattedJournal = \Illuminate\Support\Str::studly($formattedJournal);
 
         // Pad manuscript ID with 0s to ensure it's 5 digits
         $paddedId = str_pad($manuscript->id, 5, '0', STR_PAD_LEFT);
 
-        // Combine to get the final ID
-        return $formattedJournal . '-' . $paddedId;
+       return $formattedJournal .  '-'.$volumeNumber   . $paddedId;
     }
 }

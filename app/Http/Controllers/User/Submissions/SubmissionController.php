@@ -19,12 +19,12 @@ class SubmissionController extends Controller
 
     public function reset_manuscript(ManuscriptIdGenerator $gManuscriptId)
     {
-        try {
-        Mail::to('sarimshah323@gmail.com')->send(new ManuscriptAuthorMail());
-        return "Mail sent successfully.";
-    } catch (\Exception $e) {
-        return "Mail failed: " . $e->getMessage();
-    }
+    //     try {
+    //     Mail::to('sarimshah323@gmail.com')->send(new ManuscriptAuthorMail());
+    //     return "Mail sent successfully.";
+    // } catch (\Exception $e) {
+    //     return "Mail failed: " . $e->getMessage();
+    // }
 
         session()->forget('manuscript_id');
         $newEncodedId = $gManuscriptId->getLatestId();
@@ -71,70 +71,4 @@ class SubmissionController extends Controller
         $m_statement = ManuscriptStatement::where('manuscript_id', $id)->first();
         return view('users.submission.create_statement', compact('m_statement', 'manuscriptId'));
     }
-    // public function store(FileUploadMimeTypes $fileUploader, ManuscriptTabPaneRequest $manuscriptData, AuthorTabPaneRequest $authorsData, ReviewerTabPaneRequest $reviewersData, StatementTabPaneRequest $statement)
-    // {
-    //     $result =  $fileUploader->uploadFile('/uploads', $manuscriptData->file('file'), 'file', ['application/vnd.openxmlformats-officedocument.wordprocessingml.document']);
-    //     if (is_array($result) && array_key_exists("error", $result)) {
-    //         throw ValidationException::withMessages([
-    //             'error' => $result['error']
-    //         ]);
-    //     }
-
-    //     dd($statement->validated());
-    //     // dd($request->all());
-    //     $Input = $request->validate(
-    //         [
-    //             'title' => 'required',
-    //             'abstract' => 'required',
-    //             'tags' => 'required',
-    //             'journal_id' => 'required',
-    //             'name' => 'required',
-    //             'email' => 'required',
-    //             'affiliation' => 'required',
-    //             'reason' => 'required',
-
-    //         ],
-    //         [
-    //             'tags.required' => 'Keywords field is required',
-    //             'journal_id.required' => 'Journal field is required',
-    //         ]
-    //     );
-    //     $tags = explode(',', $Input['tags']);
-    //     // dd(explode(',', $Input['tags']));
-    //     $file = $request->file('file');
-    //     $fieldName = 'file';
-
-    //     $response = $fileUploader->uploadFile('submissionFormFiles/files', $file, $fieldName);
-    //     if (isset($response['error'])) {
-    //         throw ValidationException::withMessages([$fieldName => $response['error']]);
-    //     }
-    //     $msg = 'Added';
-    //     $submission = [
-    //         'title' => $Input['title'],
-    //         'abstract' => $Input['abstract'],
-    //         'keywords' => $tags,
-    //         'submission_date' => date('Y-m-d'),
-    //         'journal_id' => $Input['journal_id'],
-    //         'corresponding_author_id' => auth()->user()->id,
-    //         'file_path' => $response
-    //     ];
-    //     $submission = Submission::create($submission);
-    //     $suggestedReviewer = [
-    //         'submission_id' => $submission->id,
-    //         'name' => $Input['name'],
-    //         'email' => $Input['email'],
-    //         'affiliation' => $Input['affiliation'],
-    //         'reason' => $Input['reason'],
-
-    //     ];
-    //     SuggestedReviewer::create($suggestedReviewer);
-    //     return response()->json([
-    //         'success' => 'SUbmission Details ' . $msg . ' Successfully',
-    //         'reload' => true
-    //     ]);
-    // }
-    // public function show(Submission $submission)
-    // {
-    //     return view('submission.show', compact('submission'));
-    // }
 }

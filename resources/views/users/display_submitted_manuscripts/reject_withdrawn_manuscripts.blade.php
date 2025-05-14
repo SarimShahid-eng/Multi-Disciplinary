@@ -9,10 +9,9 @@
                 <td>{{ \Carbon\Carbon::parse(@$rejectWithdrawn->submission_date)->format('Y-m-d') }}</td>
 
                 <td>
-                    <a href="{{ route('mansucript_details.view',['manuscriptId'=>$rejectWithdrawn->encoded_id]) }}" class="btn btn-primary btn-sm ps-2 pe-2 pt-0 pb-0">
-                        <i class="ri-eye-fill"></i>
+                    <a href="{{ route('mansucript_details.view_manuscript_details',['manuscriptId'=>$rejectWithdrawn->encoded_id]) }}">
+                      <i data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="view" class="ri-search-line text-primary fw-medium" ></i>
                     </a>
-
                 </td>
             </tr>
         @empty

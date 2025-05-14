@@ -26,13 +26,13 @@
                     <table class="table p-0">
                         <thead>
                             <tr>
-                                <th class="manuscriptId">ManuscriptId</th>
+                                @if(!request()->routeIs('submitted_manuscripts.incomplete_manuscripts'))
+                                <th class="manuscriptId">Manuscript ID</th>
+                                @endif
                                 <th class="journal">Journal</th>
-                                {{-- <th class="section">Section/Special Issue</th> --}}
                                 <th class="title">Title</th>
                                 <th class="status">Status</th>
                                 <th class="submission_date">Submission Date</th>
-                                <th class="action">Action</th>
                             </tr>
                         </thead>
                         <tbody>

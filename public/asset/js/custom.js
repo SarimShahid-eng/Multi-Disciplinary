@@ -252,7 +252,7 @@ function run_ajax(href){
     });
 }
 
-function getAjaxRequests(url, params, method, callback,showToast = false,toastDelay = 1200) {
+function getAjaxRequests(url, params, method, callback,showToast = false,toastDelay = 1200,toastText='Success') {
     page_loader('show');
 
     var params = (!params && params != '') ? {} : params;
@@ -275,7 +275,7 @@ function getAjaxRequests(url, params, method, callback,showToast = false,toastDe
         success: function (data) {
             const delay = showToast ? toastDelay : 400;
             if (showToast) {
-                toast('Manuscript Steps Completed', "Success!", 'success', 1200);
+                toast(toastText, "Success!", 'success', 1200);
                 }
             if (data['reload'] !== undefined) {
                 setTimeout(function () {

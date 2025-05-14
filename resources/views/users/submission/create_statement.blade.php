@@ -179,14 +179,14 @@
                         showCancelButton: !0,
                         confirmButtonColor: "#405189",
                         cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, activate!",
-                        cancelButtonText: "No,don't",
+                        confirmButtonText: "Yes,Submit",
+                        cancelButtonText: "Cancel",
                         didOpen: () => {
                             document.querySelector('.swal2-icon').style.border = 'none';
                         }
                     }).then(function(t) {
                         if (t.value) {
-                            getAjaxRequests(url, params, 'POST', function(response) {}, true, 2000)
+                            getAjaxRequests(url, params, 'POST', function(response) {}, true, 2000,'Manuscript Completed Successfully!')
                         }
                     })
 

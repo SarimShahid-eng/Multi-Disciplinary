@@ -7,6 +7,7 @@ use App\Models\Journal;
 use App\Models\ArticleType;
 use Illuminate\Database\Eloquent\Model;
 use RedExplosion\Sqids\Concerns\HasSqids;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Manuscript extends Model
 {
@@ -20,12 +21,15 @@ class Manuscript extends Model
         'article_type_id',
         'journal_id',
         'user_id',
-        'corresponding_author_id'
     ];
     protected $casts = [
         'keywords' => 'array',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function journal()
     {
         return $this->belongsTo(Journal::class);
@@ -60,6 +64,13 @@ class Manuscript extends Model
     public function latestStep()
     {
         return $this->hasOne(ManuscriptTracker::class);
+    }
+// formatted created_at date
+      protected function formattedCreatedAt(): Attribute
+    {
+        return Attribute::get(function () {
+            return $this->created_at?->format('Y-m-d');
+        });
     }
     // for redirecting to relevant step
     public function getNextStepRoute($encodedId)

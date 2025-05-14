@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <h4>Hello {{$author->name}} You have been selected as an author for mipress specific article</h4>
+    <h4>Hello  You have been invited for a manuscript sending you details shortly!</h4>
     <h5>Thank You</h5>
 </body>
 </html>

@@ -41,8 +41,7 @@
                         @endforeach
 
                     </select>
-                    {{-- <input type="text" class="form-control author_title" id="author_title" name="author_title[]"
-                        value="{{ @$author->title }}" placeholder="title" required> --}}
+
                 </div>
                 <div class="col-xxl-12 col-md-12">
                     <label for="" class="form-label">Name</label>
@@ -112,32 +111,4 @@
     </div>
 </div>
 
-{{-- <div class="secondParent row mt-2 justify-content-center align-items-end">
-    <div class="col-xxl-3 col-md-4">
-        <label class="form-label">Size</label>
-        <select name="size_id[]" class="form-control">
-            <option value="">Select Size</option>
-            @foreach ($sizes as $size)
-                <option @selected(@$selectedSize->id === $size->id) value="{{ $size->id }}">{{ $size->name }}</option>
-            @endforeach
-        </select>
-    </div>
 
-    <div class="col-xxl-3 col-md-4">
-        <label class="form-label">Available Stock</label>
-        <input type="number" value="{{ @$selectedSize->pivot->stock_quantity }}" name="stock_quantity[]"
-            class="form-control">
-    </div>
-
-    <div class="col-xxl-3 col-md-2">
-        @if (isset($buttonType) && $buttonType === 'add')
-            <button id="sizeAndStockAddRow" type="button" class="btn btn-primary px-3 py-1">
-                <i class="ri-add-line" style="font-size: 18px;"></i>
-            </button>
-        @elseif(isset($buttonType) && $buttonType === 'remove')
-            <button type="button" class="removeRow btn btn-danger px-3 py-1">
-                <i class="ri-subtract-fill" style="font-size: 18px;"></i>
-            </button>
-        @endif
-    </div>
-</div> --}}

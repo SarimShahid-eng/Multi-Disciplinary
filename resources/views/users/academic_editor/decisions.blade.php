@@ -20,8 +20,8 @@
 
                                                 <th class="sort" data-sort="manuscriptID">ManuscriptID</th>
                                                 <th class="sort" data-sort="journal">Journal</th>
-                                                <th class="sort" data-sort="changeStatus">Change Status</th>
                                                 <th class="sort" data-sort="submissionDate">Submission Date</th>
+                                                <th class="sort" data-sort="">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody class="list form-check-all">
@@ -30,7 +30,7 @@
                                                     <td class="title">{{ $manuscript->manuscriptId }}</td>
                                                     <td class="abstract">{{ $manuscript->journal->name }}</td>
 
-                                                    <td class="changeStatus">
+                                                    {{-- <td class="changeStatus">
                                                         @if ($manuscript->latestStatus->status == 'under review')
                                                             <button
                                                                 data-url="{{ route('decision.reject_manuscript', $manuscript) }}"
@@ -60,10 +60,16 @@
                                                                 {{ ucfirst($manuscript->latestStatus->status) }}
                                                             </span>
                                                         @endif
-                                                    </td>
+                                                    </td> --}}
 
                                                     <td class="submissionDate">
-                                                        {{ $manuscript->created_at->format('Y-m-d') }}
+                                                        {{ $manuscript->formatted_created_at }}
+                                                    </td>
+
+                                                    <td class="">
+                                                        <a href="{{ route('mansucript_details.view_manuscript_details',$manuscript->encoded_id) }}">
+                                                        <i data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="view" class="ri-search-line text-primary fw-medium" ></i>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @endforeach

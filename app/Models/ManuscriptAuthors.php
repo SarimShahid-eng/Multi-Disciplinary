@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ManuscriptAuthors extends Model
 {
@@ -21,4 +22,13 @@ class ManuscriptAuthors extends Model
     protected $casts = [
         'is_corresponding' => 'boolean',
     ];
+    public function manuscript()
+    {
+        return $this->belongsTo(Manuscript::class);
+    }
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
+
 }

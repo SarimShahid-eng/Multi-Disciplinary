@@ -71,7 +71,6 @@ class User extends Authenticatable
     }
     function hasAnyRole(array $roles)
     {
-        // dd($roles);
         if (Context::hasHidden('roles')) {
             $matches = array_intersect(array_map('strtolower', $roles), Context::getHidden('roles'));
             return !empty($matches);

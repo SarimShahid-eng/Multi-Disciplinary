@@ -4,32 +4,31 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use App\Models\ManuscriptAuthors;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
+use App\Models\ManuscriptSuggestedReviewer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ManuscriptAuthorMail extends Mailable
+class InviteReviewers extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(
-        public ManuscriptAuthors $author,
-    ) {}
-
+    //  public function __construct(
+    //     public ManuscriptSuggestedReviewer $suggestedReviewer,
+    // ) {}
 
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
-        return new Envelope(
+      return new Envelope(
               from: 'testing@mipress.org',
-            subject: 'Manuscript Author Mail',
+            subject: 'Manuscript Reviewer Mail',
         );
     }
 
@@ -39,7 +38,7 @@ class ManuscriptAuthorMail extends Mailable
     public function content(): Content
     {
         return new Content(
-       view: 'users.display_submitted_manuscripts.manuscript_author_mail',
+            view: 'users.academic_editor.suggested_reviewer_email',
         );
     }
 
