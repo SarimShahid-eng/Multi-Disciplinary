@@ -111,19 +111,23 @@
                 @endphp
 
                 @foreach ($manuscript->manuscriptAuthor as $author)
-                    @if (!$author->is_corresponding)
-                        @php
-                            $counter++;
-                        @endphp
-                        <div class="custom-row"><span class="label">Author #{{ $counter }}</span>
-                            <span class="value">{{ $author->firstname }}</span>
-                            {{-- <img> if available --}}
-                        </div>
-                        <div class="custom-row"><span class="label">Affiliation</span><span
-                                class="value">{{ $author->affiliation }}</span></div>
-                        <div class="custom-row"><span class="label">E-Mail</span><span
-                                class="value">{{ $author->email }}</span></div>
-                    @endif
+                    @php
+                        $counter++;
+                    @endphp
+                    <div class="custom-row"><span class="label">Author #{{ $counter }}</span>
+                        <span class="value">{{ $author->firstname }}</span>
+                        {{-- <img> if available --}}
+                    </div>
+                    <div class="custom-row"><span class="label">Affiliation</span><span
+                            class="value">{{ $author->affiliation }}</span></div>
+                    <div class="custom-row"><span class="label">E-Mail</span><span
+                            class="value">{{ $author->email }}</span>
+                        @if ($author->is_corresponding)
+                            <span class="text-green-600">(corresponding author email)</span>
+                        @else
+                            <span class="text-gray-500">(co-author email will not be published)</span>
+                        @endif
+                    </div>
                 @endforeach
 
             </div>
@@ -223,7 +227,7 @@
                     <hr>
                     <form id="decisionForm">
                         @csrf
-                <input type="hidden" name="manuscript_id" value="{{ $manuscript->encoded_id }}">
+                        <input type="hidden" name="manuscript_id" value="{{ $manuscript->encoded_id }}">
                         <div class="wrapper2 d-flex">
 
                             <div class="custom-row">
@@ -245,10 +249,10 @@
                                 </span>
                             </div>
                             <div class="d-flex align-items-start gap-2">
-                                <label>Reject</label> <input class="" value="rejected" type="radio" name="decision"
-                                    id="reject">
-                                <label>Invite Reviewers</label> <input value="invited" class="" type="radio" name="decision"
-                                    id="invite">
+                                <label>Reject</label> <input class="" value="rejected" type="radio"
+                                    name="decision" id="reject">
+                                <label>Invite Reviewers</label> <input value="invited" class="" type="radio"
+                                    name="decision" id="invite">
                             </div>
 
                         </div>
@@ -285,8 +289,8 @@
                 <script>
                     $(document).ready(function() {
                         $('#submitDecision').on('click', function() {
-                            let params=$('#decisionForm').serialize();
-                            let url='{{ route("mansucript_details.submit_decision") }}'
+                            let params = $('#decisionForm').serialize();
+                            let url = '{{ route('mansucript_details.submit_decision') }}'
                             Swal.fire({
                                 title: "Are you sure?",
                                 text: "By this action your decision will be confirmed!",
@@ -301,7 +305,8 @@
                                 }
                             }).then(function(t) {
                                 if (t.value) {
-                                    getAjaxRequests(url, params, 'POST', function(response) {}, true, 1500,'Decision Implemented Successfully!')
+                                    getAjaxRequests(url, params, 'POST', function(response) {}, true, 1500,
+                                        'Decision Implemented Successfully!')
                                 }
                             })
                         });

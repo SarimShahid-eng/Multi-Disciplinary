@@ -7,6 +7,7 @@ use App\Http\Controllers\User\Editor\DecisionsController;
 use App\Http\Controllers\User\Submissions\SubmissionController;
 use App\Http\Controllers\User\Submissions\tabPaneValidationController;
 use App\Http\Controllers\User\Submissions\SubmittedManuscriptController;
+use App\Http\Controllers\User\Submissions\CoAuthoredManuscriptController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -52,6 +53,9 @@ Route::middleware('auth')->group(function () {
             Route::get('website-online-submissions', 'website_online_manuscripts')->name('website_online_manuscripts');
             Route::get('rejected-withdrawn-archived-submissions', 'reject_withdrawn_manuscripts')->name('reject_withdrawn_manuscripts');
             Route::post('delete-incomplete-manuscripts', 'delete_incomplete')->name('delete_incomplete');
+        });
+        Route::controller(CoAuthoredManuscriptController::class)->name('co_author_manuscripts.')->group(function () {
+            Route::get('display-co-author-manuscripts', 'index')->name('index');
         });
     });
         Route::middleware('role:editor-in-chief,associate-editor,assistant-editor,author')->group(function () {
