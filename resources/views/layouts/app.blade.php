@@ -323,7 +323,7 @@
                                                 Display Submitted Manuscripts </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="" class="nav-link" data-key="t-calendar">
+                                            <a href="{{ route('co_author_manuscripts.index') }}" class="nav-link" data-key="t-calendar">
                                                 Display Co-Authored Manuscripts </a>
                                         </li>
                                     </ul>
