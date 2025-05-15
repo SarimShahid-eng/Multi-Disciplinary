@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
+use App\Models\RoleUser;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Auth\Events\Registered;
 
 class RegisteredUserController extends Controller
 {
@@ -43,7 +45,14 @@ class RegisteredUserController extends Controller
         ]);
 
         $Input['password'] = Hash::make($Input['password']);
+        $getAuthorRoleId = Role::where('name', 'author')->first();
+
         $user = User::create($Input);
+        $data = [
+            'user_id' => $user->id,
+            'role_id' => $getAuthorRoleId->id
+        ];
+        RoleUser::create($data);
 
         Auth::login($user);
 

@@ -17,9 +17,9 @@ class InviteReviewers extends Mailable
     /**
      * Create a new message instance.
      */
-    //  public function __construct(
-    //     public ManuscriptSuggestedReviewer $suggestedReviewer,
-    // ) {}
+//  public function __construct(
+//     public ManuscriptSuggestedReviewer $suggestedReviewer,
+// ) {}
 
     /**
      * Get the message envelope.
