@@ -14,80 +14,104 @@
         </div>
     </div>
     <div class="container-fluid">
-        <div class="profile-foreground position-relative mx-n4 mt-n4">
-            <div class="profile-wid-bg">
-                <img src="{{ asset('layout_assets') }}/images/profile-bg.jpg" alt="" class="profile-wid-img" />
-            </div>
-        </div>
-        <div class="pt-2 mb-4 mb-lg-3 pb-lg-4 profile-wrapper">
-            <div class="row g-4">
-                <div class="col-auto">
-                    <div class="avatar-lg">
-                        <img src="{{ asset('layout_assets/images/users/avatar-1.jpg') }}" alt="user-img"
-                            class="img-thumbnail rounded-circle" />
-                    </div>
-                </div>
-                <!--end col-->
-                <div class="col">
-                    <div class="p-2">
-                        <h3 class="text-white mb-1">{{ $user->name }}</h3>
-                        <p class="text-white text-opacity-75"><b> Role : </b>
-                            @foreach ($user->roles as $role)
-                                {{ $role->name }}
-                            @endforeach
-                        </p>
-                        <div class="d-flex profile-wrapper mt-3">
-                            <div class="flex-shrink-0">
-                                <a href="{{ route('profile.edit') }}" class="btn btn-success"><i
-                                        class="ri-edit-box-line align-bottom"></i>
-                                    Edit Profile</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--end row-->
-        </div>
-
         <div class="row">
-            <div class="col-lg-12">
-
-                <!-- Tab panes -->
-                <div class="tab-content pt-2 text-muted">
-                    <div class="tab-pane active" role="tabpanel">
-                        <div class="row">
-                            <div class="col-xxl-3">
-
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title mb-3">Info</h5>
-                                        <div class="table-responsive">
-                                            <table class="table table-borderless mb-0">
-                                                <tbody>
-                                                    <tr>
-                                                        <th class="ps-0" scope="row">Full Name :</th>
-                                                        <td class="text-muted">{{ $user->name }}</td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <th class="ps-0" scope="row">E-mail :</th>
-                                                        <td class="text-muted">{{ $user->email }}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div><!-- end card body -->
-                                </div><!-- end card -->
+            <div class="col-xxl-9">
+                <div class="card mt-xxl-n5">
+                    <div class="card-body p-4">
+                        <div class="heading-sub_heading mb-3">
+                            <h5 class="mb-0">Edit Profile Data</h5>
+                            <hr>
+                            <!-- <p class="text-muted fs-11">Input manuscript details ...</p> -->
+                        </div>
+                        <form action="{{ route('profile.update') }}" method="POST" class="ajaxForm">
+                      @csrf
+                            <div class="row gy-2">
+                            {{-- <div class="col-xxl-12 col-md-12">
+                                <label for="" class="form-label">ORCID</label>
+                                <p class="edit-profile-value blue"><span class="id-logo">iD</span>0000-00020651501569
+                                    [unbind] [What is this?]</p>
+                            </div> --}}
+                            {{--
+                            <div class="col-xxl-12 col-md-12">
+                                <label for="country" class="d-block required">Title</label>
+                                <select class="form-select" id="inputGroupSelect02"
+                                    style="background-color: white; color: black;">
+                                    <option value="" selected="" data-select2-id="select2-data-2-czgx">Select
+                                        Title</option>
+                                    <option value="1">Dr.</option>
+                                    <option value="2">Prof.</option>
+                                    <option value="3">Mr.</option>
+                                </select>
+                            </div> --}}
+                            <div class="col-xxl-12 col-md-12">
+                                <label for="" class="form-label required">First Name</label>
+                                <input type="text" class="form-control" value="{{ $user->firstname }}"
+                                    name="firstname" placeholder="Enter Firstname">
+                            </div>
+                            {{-- <div class="col-xxl-12 col-md-12">
+                                <label for="" class="form-label required">Middle Name</label>
+                                <input type="text" name="middlename" class="form-control"
+                                    value="{{ $user->middlename }}" placeholder="">
+                            </div> --}}
+                            <div class="col-xxl-12 col-md-12">
+                                <label for="" class="form-label">Last Name</label>
+                                <input type="text" name="lastname" class="form-control" value="{{ $user->lastname }}"
+                                    placeholder="Gulzar">
                             </div>
 
-                            <!--end col-->
+                            <div class="col-xxl-12 col-md-12">
+                                <label for="" class="form-label required">Affiliation</label>
+                                <input type="text" class="form-control" name="affiliation"
+                                    value="{{ $user->affiliation }}" placeholder="King Faisal Univerity">
+                            </div>
+                            <div class="col-xxl-12 col-md-12">
+                                <label for="" class="form-label required">Address 1</label>
+                                <input type="text" class="form-control" name="address1"
+                                    value="{{ $user->address1 }}">
+                            </div>
+                            <div class="col-xxl-12 col-md-12">
+                                <label for="" class="form-label">Address 2</label>
+                                <input type="text" class="form-control" name="address2" value="{{ $user->address2 }}"
+                                    placeholder="Address 2">
+                            </div>
+                            <div class="col-xxl-12 col-md-12">
+                                <label for="" class="form-label required">Zip Code</label>
+                                <input type="text" class="form-control" name="zip_code" value="{{ $user->zip_code }}"
+                                    placeholder="31982">
+                            </div>
+                            <div class="col-xxl-12 col-md-12">
+                                <label for="" class="form-label required">City</label>
+                                <input type="text" class="form-control" name="city" value="{{ $user->city }}"
+                                    placeholder="Al-Ahsa">
+                            </div>
+                            <div class="col-xxl-12 col-md-12">
+                                <label for="" class="form-label required">County/Region</label>
+                                <select class="js-example-basic-single" name="country">
+                                    <option value="" selected>Select Country</option>
+                                    @foreach ($countries as $country)
+                                        <option @selected(@$user->country === $country) value="{{ $country }}">
+                                            {{ $country }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-xxl-12 col-md-12">
+                                <label for="" class="form-label">Biography</label>
+                                <textarea class="form-control" id="abstract" name="abstract" placeholder="Write Biography" cols="30"
+                                    rows="10">{{ $user->abstract }}</textarea>
+                            </div>
+                            <button type="submit" id="submitManuscript"
+                                class="btn btn-primary w-auto px-3 py-1 ms-3">Save</button>
+
+                            {{-- <p class="text-muted required m-10" style="margin-top: 10px;">Denotes Required Field</p> --}}
+
                         </div>
-                        <!--end row-->
+                        </form>
                     </div>
                 </div>
-                <!--end tab-content-->
+
             </div>
         </div>
-        <!--end col-->
+    </div>
     </div>
 </x-app-layout>

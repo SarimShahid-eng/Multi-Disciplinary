@@ -303,6 +303,12 @@
                         </li> <!-- end Dashboard Menu -->
 
                         @role('author')
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="{{ route('profile.view') }}" role="button"
+                                aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Profile</span>
+                            </a>
+                        </li> <!-- end Dashboard Menu -->
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="#submission" data-bs-toggle="collapse"
                                     role="button" aria-expanded="false" aria-controls="sidebarApps">

@@ -22,6 +22,7 @@
                         </thead>
                         <tbody>
                             @forelse ($manuscripts as $manuscript)
+                            <tr>
                                 <td>{{ $manuscript->manuscriptId }}</td>
                                 <td>{{ $manuscript->journal->name }}</td>
                                 <td>{{ $manuscript->title }}</td>
@@ -36,6 +37,7 @@
                                             class="ri-search-line text-primary fw-medium"></i>
                                     </a>
                                 </td>
+                            </tr>
                             @empty
                                 <tr>
                                     <td colspan="12" class="text-center">

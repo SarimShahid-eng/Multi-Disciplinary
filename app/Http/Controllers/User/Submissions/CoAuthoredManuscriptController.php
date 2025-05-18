@@ -11,8 +11,8 @@ class CoAuthoredManuscriptController extends Controller
     public function index()
     {
         // manuscripts of author where he is a co_author
-        $manuscripts = Manuscript::where('user_id', auth()->id())
-            ->with(['manuscriptAuthor','journal','latestStatus'])
+        $manuscripts = Manuscript::
+            with(['manuscriptAuthor','journal','latestStatus'])
             ->whereHas('manuscriptAuthor', function ($query) {
                 $query
                 ->where('is_corresponding',"1")

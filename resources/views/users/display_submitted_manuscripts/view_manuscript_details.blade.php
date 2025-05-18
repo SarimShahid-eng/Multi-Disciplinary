@@ -122,11 +122,11 @@
                             class="value">{{ $author->affiliation }}</span></div>
                     <div class="custom-row"><span class="label">E-Mail</span><span
                             class="value">{{ $author->email }}</span>
-                        @if ($author->is_corresponding)
+                        {{-- @if ($author->is_corresponding)
                             <span class="text-green-600">(corresponding author email)</span>
                         @else
                             <span class="text-gray-500">(co-author email will not be published)</span>
-                        @endif
+                        @endif --}}
                     </div>
                 @endforeach
 

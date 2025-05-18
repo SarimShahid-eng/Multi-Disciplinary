@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
         });
     });
     Route::middleware('role:author')->group(function () {
+
         Route::prefix('submission')->name('submission.')->group(function () {
             Route::controller(SubmissionController::class)->group(function () {
                 Route::get('submit-research', 'reset_manuscript')->name('reset_manuscript');
